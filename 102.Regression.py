@@ -41,12 +41,18 @@ predict = poly(17); print(predict)
 # Il file si può trovare qui "https://www.w3schools.com/python/data.csv"
 # Bisogna inserire la directory in cui è presente il file (in questo caso la cartella Colab Notebooks sul Drive)
 df = pd.read_csv(datadir+"/data_multiple_regr.csv"); df
+
 # Facciamo una lista 'X' dei valori indipendenti e una lista 'y' dei valori dipendenti
 X = df[['Weight', 'Volume']]; y = df['CO2']
+# Quindi in questo caso avremo la quantità di CO2 in base a peso e volume
 from sklearn import linear_model as lm
-regr = lm.LinearRegression()
-regr.fit(X, y)
+regr = lm.LinearRegression(); regr.fit(X, y)
+print(regr.coef_)
+# I coefficienti ci dicono quando aumenta la variabile dipendente se la variabile
+# indipendente aumenta di una unità
 
+# Per predire valori di CO2 in base a peso e volume:
+predCO2 = regr.predict([[2300, 1300]])
 
 
 
