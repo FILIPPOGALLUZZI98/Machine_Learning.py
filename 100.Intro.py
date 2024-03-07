@@ -12,7 +12,7 @@ from google.colab import drive
 drivedir='/content/drive'
 drive.mount(drivedir)
 os.chdir(drivedir)
-datadir=drivedir+'/MyDrive/Colab Notebook/Github_Intro'
+datadir=drivedir+'/MyDrive/Colab Notebooks/Github_Intro'
 
 
 
