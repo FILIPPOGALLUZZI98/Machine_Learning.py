@@ -9,12 +9,9 @@ import pandas as pd
 # MONTAGGIO GDRIVE
 import os, sys
 from google.colab import drive
-drivedir='/content/drive'
+drivedir="/content/drive/MyDrive/Colab Notebooks"
 drive.mount(drivedir)
-datadir=drivedir
-
-
-
+datadir=drivedir+'/Cartella_Dati'
 
 
 
