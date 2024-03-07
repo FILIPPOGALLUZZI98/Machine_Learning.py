@@ -37,8 +37,10 @@ predict = poly(17); print(predict)
 
 
 # MULTIPLE REGRESSION
-
-
+# Regressione multipla è come regressione lineare ma con piùdi una variabile indipendente
+# Il file si può trovare qui "https://www.w3schools.com/python/data.csv"
+# Bisogna inserire la directory in cui è presente il file
+df = pd.read_csv("data.csv")
 
 
 
