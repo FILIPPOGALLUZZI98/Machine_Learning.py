@@ -11,7 +11,7 @@ import os, sys
 from google.colab import drive
 drivedir="/content/drive/MyDrive/Colab Notebooks"
 drive.mount(drivedir)
-datadir=drivedir+'/Cartella_Dati'
+datadir=drivedir+'/Github_Intro'
 
 
 
