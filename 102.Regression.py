@@ -40,7 +40,7 @@ predict = poly(17); print(predict)
 # Regressione multipla è come regressione lineare ma con piùdi una variabile indipendente
 # Il file si può trovare qui "https://www.w3schools.com/python/data.csv"
 # Bisogna inserire la directory in cui è presente il file (in questo caso la cartella Colab Notebooks sul Drive)
-df = pd.read_csv("/Github_Intro/data_multiple_regr.csv"); df
+df = pd.read_csv(datadir+"/data_multiple_regr.csv"); df
 # Facciamo una lista 'X' dei valori indipendenti e una lista 'y' dei valori dipendenti
 X = df[['Weight', 'Volume']]; y = df['CO2']
 from sklearn import linear_model as lm
