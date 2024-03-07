@@ -6,6 +6,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
+# MONTAGGIO GDRIVE
+import os, sys
+from google.colab import drive
+drivedir='/content/drive'
+drive.mount(drivedir)
+datadir=drivedir
+
 
 
 
