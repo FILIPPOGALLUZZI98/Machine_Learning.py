@@ -9,9 +9,10 @@ import pandas as pd
 # MONTAGGIO GDRIVE
 import os, sys
 from google.colab import drive
-drivedir="/content/drive/MyDrive/Colab Notebooks"
+drivedir='/content/drive'
 drive.mount(drivedir)
-datadir=drivedir+'/Github_Intro'
+os.chdir(drivedir)
+datadir=drivedir+'/MyDrive/Colab Notebook/Github_Intro'
 
 
 
