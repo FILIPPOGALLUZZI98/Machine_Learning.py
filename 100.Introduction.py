@@ -1,6 +1,7 @@
-# In tutti i successivi codici sarà implicito 'numpy'
+# In tutti i successivi codici saranno impliciti
 import numpy as np
-
+import scipy as sc
+from scipy import stats as st
 
 
 
