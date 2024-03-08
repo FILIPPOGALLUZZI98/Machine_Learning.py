@@ -13,6 +13,10 @@ cm_display = metrics.ConfusionMatrixDisplay(conf_mat, display_labels = [False, T
 cm_display.plot(); plt.show()
 
 # True significa che i valori sono stati previsti accuratamente, False significa che si è verificato un errore o una previsione errata
+# Ci dice quindi quanti falsi positivi, falsi negativi, veri negativi e veri positivi sono stati calcolati dal modello
+
+
+# METRICS
 # La matrice ci fornisce molte metriche utili che ci aiutano a valutare il nostro modello di classificazione:
 
 # ACCURACY
