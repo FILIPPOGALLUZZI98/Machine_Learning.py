@@ -9,6 +9,10 @@ cars = pd.read_csv(datadir+"/data_multiple_regr.csv")
 ohe_cars = pd.get_dummies(cars[['Car']])
 print(ohe_cars.to_string())
 
+# A questo punto dobbiamo seleizonare una variabile indipendente X ed aggiungere una colonna dei dummy variables
+# Anche aggiungere la variabile dipendente in y
+X = pandas.concat([cars[['Volume', 'Weight']], ohe_cars], axis=1)
+y = cars['CO2']
 
 
 
