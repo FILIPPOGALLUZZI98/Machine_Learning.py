@@ -26,6 +26,11 @@ dtree = DecisionTreeClassifier()
 dtree = dtree.fit(X, y)
 tree.plot_tree(dtree, feature_names=features)
 
+# Per predire nuovi valori
+print(dtree.predict([[40, 10, 7, 1]]))  ## In ordine: Età, Experience, Comedy rank
+
+
+# SPIEGAZIONE
 # La prima riga della casella, in ogni casella, indica la condizione per cui i dati si suddividono: per 
 # esempio, X<=50 indica che tutti i dati con valore X minore o uguale a 50 seguiranno True gli altri False e dunque proseguiranno
 # Sotto a questa condizione ci sono altre caratteristiche dei dati, per esempio indicazioni sulla qualità della
@@ -44,8 +49,7 @@ tree.plot_tree(dtree, feature_names=features)
 # In queste la condizione è data sulla nazionalità, poi età, poi experience
 # Per spiegazione passaggio per passaggio "https://www.w3schools.com/python/python_ml_decision_tree.asp"
 
-# Per predire nuovi valori
-print(dtree.predict([[40, 10, 7, 1]]))  ## In ordine: Età, Experience, Comedy rank
+
 
 
 
