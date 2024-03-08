@@ -27,7 +27,7 @@ plt.scatter(x, y); plt.show()
 
 poly = np.poly1d(np.polyfit(x, y, 3))
 myline = np.linspace(1, 22, 100)  ## Indichiamo la posizione di inizio e fine della linea
-plt.scatter(x, y); plt.plot(myline, poly(my  line)); plt.show()
+plt.scatter(x, y); plt.plot(myline, poly(myline)); plt.show()
 print(r2_score(y, poly(x)))
 
 # Anche in questo caso possiamo predire i valori dei dati che non abbiamo
