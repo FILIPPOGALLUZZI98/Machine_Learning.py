@@ -14,6 +14,9 @@ plt.scatter(train_x, train_y); plt.show()
 plt.scatter(test_x, test_y); plt.show()
 # Vediamo che sono simili
 
+
+
+
 # Proviamo una regressione polinomiale
 from sklearn.metrics import r2_score 
 model = np.poly1d(np.polyfit(x, y, 4))
