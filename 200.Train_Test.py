@@ -22,11 +22,11 @@ from sklearn.metrics import r2_score
 model = np.poly1d(np.polyfit(x, y, 4))
 myline = np.linspace(0, 6, 100)  ## Indichiamo la posizione di inizio e fine della linea
 plt.scatter(x, y); plt.plot(myline, model(myline)); plt.show()
-print(r2_score(y, poly(x)))
+print(r2_score(y, model(x)))
 # Probabilmente è presente un overfitting, anche se r_score è elevato
 
 # Usiamo i dati test per vedere se si adattano bene al modello
-r2 = r2_score(test_y, model (test_x)); print(r2)
+r2 = r2_score(test_y, model(test_x)); print(r2)
 # Essendo alto anche questo valore, supponiamo che il modello sia buono
 
 # A questo punto possiamo predire i valori
