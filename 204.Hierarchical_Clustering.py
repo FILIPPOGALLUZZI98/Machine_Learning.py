@@ -10,7 +10,6 @@
 # Il clustering gerarchico ci impone di decidere sia il metodo della distanza che quello del collegamento. Utilizzeremo la distanza
 # euclidea e il metodo del collegamento di Ward, che tenta di minimizzare la varianza tra i cluster
 
-from scipy.cluster.hierarchy import dendrogram, linkage
 # Iniziamo plottando i dati
 x = [4, 5, 10, 4, 3, 11, 14 , 6, 10, 12]
 y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
@@ -18,6 +17,7 @@ data = list(zip(x, y))  ## Questo serve a unire i dati in un insieme di punti (x
 plt.scatter(x, y); plt.show()
 
 # Ora calcoliamo il collegamento dei cluster utilizzando la distanza euclidea e lo visualizziamo utilizzando un dendrogramma
+from scipy.cluster.hierarchy import dendrogram, linkage
 linkage_data = linkage(data, method='ward', metric='euclidean')
 dendrogram(linkage_data)
 plt.show()
