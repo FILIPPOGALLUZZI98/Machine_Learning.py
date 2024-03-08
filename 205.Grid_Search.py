@@ -23,12 +23,12 @@ print(logit.fit(X,y))  ## Adattiamo il modello ai dati
 print(logit.score(X,y))  ## Per valutare il modello eseguiamo il metodo del punteggio
 
 # Implementazione
-# Poiché il valore predefinito per C è 1, imposteremo un intervallo di valori che lo circondano.
+# Poiché il valore predefinito per C è 1, imposteremo un intervallo di valori che lo circondano
 C = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
-# Successivamente creeremo un ciclo for per modificare i valori Ce valutare il modello ad ogni modifica
+# Successivamente creeremo un ciclo for per modificare i valori C e valutare il modello ad ogni modifica
 # Per prima cosa creeremo un elenco vuoto in cui memorizzare il punteggio
 scores = []
-Per modificare i valori di Cdobbiamo scorrere l'intervallo di valori e aggiornare il parametro ogni volta
+# Per modificare i valori di Cdobbiamo scorrere l'intervallo di valori e aggiornare il parametro ogni volta
 for choice in C:
   logit.set_params(C=choice)
   logit.fit(X, y)
