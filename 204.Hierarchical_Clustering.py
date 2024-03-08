@@ -13,10 +13,10 @@
 # Iniziamo plottando i dati
 x = [4, 5, 10, 4, 3, 11, 14 , 6, 10, 12]
 y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
+data = list(zip(x, y))  ## Questo serve a unire i dati in un insieme di punti (x,y)
 plt.scatter(x, y); plt.show()
 
 # Ora calcoliamo il collegamento dei cluster utilizzando la distanza euclidea e lo visualizziamo utilizzando un dendrogramma
-data = list(zip(x, y))  ## Questo serve a unire i dati in un insieme di punti (x,y)
 linkage_data = linkage(data, method='ward', metric='euclidean')
 dendrogram(linkage_data)
 plt.show()
