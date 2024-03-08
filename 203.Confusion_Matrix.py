@@ -49,6 +49,11 @@ Specificity = metrics.recall_score(actual, predicted, pos_label=0)
 F1_score = metrics.f1_score(actual, predicted)
 
 # TUTTE LE METRICS INSIEME 
+Accuracy = metrics.accuracy_score(actual, predicted)
+Precision = metrics.precision_score(actual, predicted)
+Sensitivity_recall = metrics.recall_score(actual, predicted)
+Specificity = metrics.recall_score(actual, predicted, pos_label=0)
+F1_score = metrics.f1_score(actual, predicted)
 print({"Accuracy":Accuracy,"Precision":Precision,"Sensitivity_recall":Sensitivity_recall,"Specificity":Specificity,"F1_score":F1_score})
 
 
