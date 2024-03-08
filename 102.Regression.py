@@ -9,8 +9,8 @@ slope, intercept, r, p, std_err = st.linregress(x, y)
 print(r)
 def reg_lin(x):
   return slope * x + intercept
-mymodel = list(map(reg_lin, x))  ## This will result in a new array with new values for the y-axis
-plt.scatter(x, y); plt.plot(x, mymodel); plt.show()
+model = list(map(reg_lin, x))  ## This will result in a new array with new values for the y-axis
+plt.scatter(x, y); plt.plot(x, model); plt.show()
 
 # Con la funzione creata possiamo anche predire i valori dei dati che non abbiamo
 predict = reg_lin(10); print(predict)
@@ -25,13 +25,13 @@ x = [1,2,3,5,6,7,8,9,10,12,13,14,15,16,18,19,21,22]
 y = [100,90,80,60,60,55,60,65,70,70,75,76,78,79,90,99,99,100]
 plt.scatter(x, y); plt.show()
 
-poly = np.poly1d(np.polyfit(x, y, 3))
+model = np.poly1d(np.polyfit(x, y, 3))
 myline = np.linspace(1, 22, 100)  ## Indichiamo la posizione di inizio e fine della linea
-plt.scatter(x, y); plt.plot(myline, poly(myline)); plt.show()
+plt.scatter(x, y); plt.plot(model, model(myline)); plt.show()
 print(r2_score(y, poly(x)))
 
 # Anche in questo caso possiamo predire i valori dei dati che non abbiamo
-predict = poly(17); print(predict)
+predict = model(17); print(predict)
 
 
 
