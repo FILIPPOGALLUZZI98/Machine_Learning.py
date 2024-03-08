@@ -10,6 +10,7 @@
 # Il clustering gerarchico ci impone di decidere sia il metodo della distanza che quello del collegamento. Utilizzeremo la distanza
 # euclidea e il metodo del collegamento di Ward, che tenta di minimizzare la varianza tra i cluster
 
+from scipy.cluster.hierarchy import dendrogram, linkage
 # Iniziamo plottando i dati
 x = [4, 5, 10, 4, 3, 11, 14 , 6, 10, 12]
 y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
