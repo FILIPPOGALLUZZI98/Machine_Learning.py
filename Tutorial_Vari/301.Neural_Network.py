@@ -74,10 +74,11 @@ print(layer2_outputs)
 
 
 
+# CLASSI
 # Invece di scrivere molti layer possiamo usare una classe
 import numpy as np
 np.random.seed(0)
-
+# Valori in input:
 X = [[1, 2, 3, 2.5], 
      [2, 5, -1, 2], 
      [-1.5, 2.7, 3.3, -0.8]]
@@ -176,10 +177,16 @@ print(activation2.output[:5])
 
 ####################################################################################################
 ####################################################################################################
-# METRICS FOR ERRORS
+# METRICS FOR ERRORS (Categorical Cross-Entropy)
+# One hot encoding --> Un vettore con tutti 0 tranne che nella target class, in cui c'è 1
 
-
-
+import math
+softmax_output = [0.7, 0.1, 0.2]
+target_output = [1, 0, 0]
+loss = -(math.log(softmax_output[0])*target_output[0] + 
+         math.log(softmax_output[1])*target_output[1] + 
+         math.log(softmax_output[2])*target_output[2])
+print(loss)
 
 
 
