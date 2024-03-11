@@ -49,6 +49,10 @@ output = np.dot(weights, inputs) + bias  ## weights devono essere primi (indiciz
 print(output)
 
 
+# BATCH
+NUMERO 4 MINUTO 8
+
+
 
 
 
