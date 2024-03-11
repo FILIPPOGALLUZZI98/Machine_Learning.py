@@ -98,7 +98,15 @@ print(output)
 derivative = output * (1.0 - output)
 def transfer_derivative(output):
  return output * (1.0 - output)
- 
+
+# Il primo passo è calcolare l'errore per ciascun neurone di output, questo ci darà il nostro segnale di errore (input) da 
+# propagare all'indietro attraverso la rete. L'errore per un dato neurone può essere calcolato come segue
+error = (output - expected) * transfer_derivative(output)
+# expected è l'output atteso per il neurone e transfer_derivative() calcola la pendenza dell'output neurone
+# Questo calcolo viene usato per i neuroni nell'output layer. il valore atteso è il valore della classe stessa
+# Il segnale di errore per un neurone nello strato nascosto è calcolato come l'errore pesato per ogni neurone nell'output layer
+# Il segnale di errore propagato all'indietro viene accumulato e quindi utilizzato per determinare l'errore per il neurone nello strato nascosto
+error = (weight_k * error_j) * transfer_derivative(output)
 
 
 
