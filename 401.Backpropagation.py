@@ -93,9 +93,17 @@ print(output)
 # strato di output allo strato nascosto, assegnando la colpa dell'errore e aggiornando i pesi man mano che procedono
 # La matematica per l'errore di propagazione all'indietro è radicata nel calcolo, ma in questa sezione resteremo ad un livello elevato
 # e ci concentreremo su cosa viene calcolato e come, piuttosto che sul perché, i calcoli assumono questa forma particolare
-Questa parte è suddivisa in due sezioni: Trasferimento derivato; Errore di backpropagation.
+# Questa parte è suddivisa in due sezioni: Trasferimento derivato; Errore di backpropagation.
+# Dato un valore di output da un neurone, dobbiamo calcolare la sua pendenza
+derivative = output * (1.0 - output)
+def transfer_derivative(output):
+ return output * (1.0 - output)
+ 
 
 
+
+
+ 
 
 
 
