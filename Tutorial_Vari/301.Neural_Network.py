@@ -1,4 +1,4 @@
-# Questi sono input unici dati ad ogni nuerone (supponiamo di averne 3) (per ora sono arbitrari)
+# Questi sono input unici dati ad ogni nuerone (supponiamo di averne 3). Per ora sono arbitrari
 # Gli input in un neurone potrebbero arrivare sia da valori esterni che da un altro neurone precedente
 # Stiamo considerando 3 input in un solo neuronen, quindi avremo un solo bias
 inputs = [1, 2, 3, 2.5]  
@@ -6,6 +6,7 @@ weights = [0.2, 0.8, -0.5, 1]
 bias = 2
 output = inputs[0]*weights[0] + inputs[1]*weights[1] + inputs[2]*weights[2] +  inputs[3]*weights[3] + bias
 print(output)
+
 
 # Passiamo ora a 3 neuroni con 4 input (e quindi 3 output)
 inputs = [1, 2, 3, 2.5]
@@ -37,6 +38,15 @@ for neuron_weights, neuron_bias in zip(weights, biases):
 print(layer_outputs)
 
 
+# Dot product
+import numpy as np
+inputs = [1, 2, 3, 2.5]
+weights = [[0.2, 0.8, -0.5, 1], 
+           [0.5, -0.91, 0.26, -0.5], 
+           [-0.26, -0.27, 0.17, 0.87]]
+biases = [2, 3, 0.5]
+output = np.dot(weights, inputs) + bias  ## weights devono essere primi (indicizzazione della matrice)
+print(output)
 
 
 
