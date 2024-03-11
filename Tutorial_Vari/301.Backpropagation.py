@@ -10,16 +10,8 @@ from random import random
 from csv import reader
 from math import exp
  
-# Load a CSV file
-def load_csv(filename):
- dataset = list()
- with open(filename, 'r') as file:
- csv_reader = reader(file)
- for row in csv_reader:
- if not row:
- continue
- dataset.append(row)
- return dataset
+
+dataset = pd.read_csv(datadir+"/backpropagation.csv"); df
  
 # Convert string column to float
 def str_column_to_float(dataset, column):
