@@ -112,8 +112,6 @@ print(layer2.output)
 # Matematicamente abbiamo bisogno di funzioni di attivazione invece di funzioni lineari perché
 # altrimenti la risposta della rete neurale sarebbe lineare
 import numpy as np
-import nnfs
-nnfs.init()
 np.random.seed(0)
 
 X = [[1, 2, 3, 2.5], 
@@ -128,9 +126,37 @@ class Activation_ReLU:
                     self.output = np.maximum(0, inputs)
 
 
+# Un layer con funzione di attivazione
+import numpy as np
+import nnfs
+from nnfs.dataset import spiral_data
+nnfs.init()
+
+X = [[1, 2, 3, 2.5], 
+     [2, 5, -1, 2], 
+     [-1.5, 2.7, 3.3, -0.8]]
+
+X, y = spiral_data(100, 3)
+
+class Layer_Dense:
+          def __init__(self, n_inputs, n_neurons):
+                    self.weights = 0.10*np.random.randn(n_inputs, n_neurons)  
+                    self.biases = np.zeros((1, n_neurons))
+          def forward(self, inputs):
+                    self.output = np.dot(inputs, self.weights) + self.biases
+class Activation_ReLU:
+          def forward(self, inputs):
+                    self.output = np.maximum(0, inputs)
+layer1 = Layer_Dense(4, 5)
+activation1.forward(X)
+layer1.forward(X)
+activation.orward(layer1.output)
+print(activation1.output)
 
 
 
+
+layer_outputs = [4.8, 1.21, 2.385]
 
 
 
