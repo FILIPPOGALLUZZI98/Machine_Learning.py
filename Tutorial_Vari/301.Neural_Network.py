@@ -81,9 +81,6 @@ layer1_outputs = np.dot(inputs, np.array(weights).T) + biases
 layer2_outputs = np.dot(layer1_outputs, np.array(weights2).T) + biases2
 print(layer2_outputs)
 
-
-
-
 # Invece di scrivere molti layer possiamo usare una classe
 import numpy as np
 np.random.seed(0)
@@ -126,7 +123,27 @@ class Activation_ReLU:
                     self.output = np.maximum(0, inputs)
 
 
-# Un layer con funzione di attivazione
+
+import numpy as np
+# Supponiamo che i seguenti siano i valori di output
+layer_outputs = [4.8, 1.21, 2.385]
+# Usiamo e per trattare anche i numeri negativi senza perderne il significato
+exp_values = np.exp(layer_outputs)
+norm_values = exp_values / np.sum(exp_values)
+print(norm_values)
+print(sum(norm_values))
+
+# Using batch
+layer_outputs = [[4.8, 1.21, 2.385],
+                 [8.9, -1.81, 0.2],
+                 [1.41, 1.051, 0.026]]
+exp_values = np.exp(layer_outputs)
+norm_values = exp_values / np.sum(exp_values, axis=1, keepdims=True)
+print(norm_values)
+
+
+####################################################################################################
+####################################################################################################
 import numpy as np
 import nnfs
 from nnfs.dataset import spiral_data
@@ -156,7 +173,12 @@ print(activation1.output)
 
 
 
-## ARRIVATO A LEZIONE 6 DA FARE
+
+
+
+
+
+
 
 
 
