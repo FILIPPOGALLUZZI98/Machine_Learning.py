@@ -119,6 +119,7 @@ class Activation_ReLU:
 
 
 
+
 # EXPONENTIAL FUNCTION
 import numpy as np
 # Supponiamo che i seguenti siano i valori di output
@@ -136,6 +137,20 @@ layer_outputs = [[4.8, 1.21, 2.385],
 exp_values = np.exp(layer_outputs)
 norm_values = exp_values / np.sum(exp_values, axis=1, keepdims=True)
 print(norm_values)
+
+
+
+
+# METRICS FOR ERRORS (Categorical Cross-Entropy)
+# One hot encoding --> Un vettore con tutti 0 tranne che nella target class, in cui c'è 1
+
+import math
+softmax_output = [0.7, 0.1, 0.2]
+target_output = [1, 0, 0]
+loss = -(math.log(softmax_output[0])*target_output[0] + 
+         math.log(softmax_output[1])*target_output[1] + 
+         math.log(softmax_output[2])*target_output[2])
+print(loss)
 
 
 ####################################################################################################
@@ -161,6 +176,21 @@ class Activation_Softmax:
                     exp_values = np.exp(inputs - np.max(inputs, axis=1, keepdims=True))  ## Sottrazione per evitare overflow dovuto a exp
                     probabilities = exp_values / np.sum(exp_values, axis=1, keepdims=True)
                     self.output = probabilities
+class Loss:
+          def calculate(self, output, y):
+                    sample_losses = self.forward(output, y)
+                    data_loss = np.mean(sample_losses)
+                    return data_loss
+class Loss_CategoricalCrossEntropy(Loss):
+          def forward(self, y_pred, y_true):
+                    samples = len(y_pred)
+                    y_pred_clipped = np.clip(y_pred, 1e-7, 1-1e-7)
+                    if len(y_true) == 1:
+                              correct_confidencces = y_pred_clipped[range(samples), y_true]
+                    elif len(y_true.shape) == 2:
+                              correct_confidences = np.sum(y_pred_clipped*y_true, axis=1)
+                    negative_log_likelihoods = -np.sum(y_pred_clipped*y_true, axis=1)
+                    return negative_log_likelihoods
 
 X, y = spiral_data(samples=100, classes=3)
 
@@ -174,21 +204,10 @@ dense2.forward(activation1.output)
 activation2.forward(dense2.output)
 
 print(activation2.output[:5])
+loss_function = Loss_CategoricalCrossEntropy()
+loss = loss_function.calculate(activation2.output, y)
 
-####################################################################################################
-####################################################################################################
-# METRICS FOR ERRORS (Categorical Cross-Entropy)
-# One hot encoding --> Un vettore con tutti 0 tranne che nella target class, in cui c'è 1
-
-import math
-softmax_output = [0.7, 0.1, 0.2]
-target_output = [1, 0, 0]
-loss = -(math.log(softmax_output[0])*target_output[0] + 
-         math.log(softmax_output[1])*target_output[1] + 
-         math.log(softmax_output[2])*target_output[2])
-print(loss)
-
-
+print("Loss:", loss)
 
 
 
