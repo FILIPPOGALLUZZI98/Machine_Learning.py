@@ -1,3 +1,8 @@
+# A network with 5 neurons in the hidden layer and 3 neurons in the output layer was constructed
+# The network was trained for 500 epochs with a learning rate of 0.3. These parameters were found with a little trial and error,
+# but you may be able to do much better. Running the example prints the average classification accuracy on each fold as well as
+# the average performance across all folds.
+
 # Backprop on the Seeds Dataset
 from random import seed
 from random import randrange
