@@ -98,7 +98,7 @@ class Layer_Dense:
                     self.biases = np.zeros((1, n_neurons))
           def forward(self, inputs):
                     self.output = np.dot(inputs, self.weights) + self.biases
-layer1 = Layer_Dense(4, 5)  ## 5 può essere qualsiasi caso
+layer1 = Layer_Dense(4, 5)  ## (x, y) con x= numero inputs, y=numero neuroni; 5 può essere qualsiasi a caso
 layer2 = Layer_Dense(5, 2)  ## 5 deve essere uguale all'output del primo, 2 a caso
 layer1.forward(X)
 layer2.forward(layer1.output)
