@@ -1,77 +1,101 @@
-# L'algoritmo di backpropagation è un supervised learning method per multilayer feed-forward networks
-# Il principio della backpropagation è di modellizzare una certa funzione modificandone i pesi interni dei segnali in input
-# Il training del sistema viene fatto usando un supervised learning method, dove gli errori tra l'output del sistema e quello
-# conosciuto è presentato dal sistema e usato per modificareil suo stato interno
-# Backpropagation può essere usato sia per classificazione che regressione
-
-# Questo dataset contiene le previsioni di misurazioni dei semi di differenti varietà di grano
-# Ci sono 201 misure e 7 variabili, è un problema di classificazione con 3 output classes
-
-
-# INIZIALIZZAZIONE
-# Partiamo dalla creazione di una nuova rete pronta per la formazione
-# Ogni neurone ha una serie di pesi che devono essere mantenuti. Un peso per ogni connessione di ingresso e un peso aggiuntivo per
-# il bias. Dovremo memorizzare proprietà aggiuntive per un neurone durante l'allenamento, quindi utilizzeremo un dizionario per 
-# rappresentare ciascun neurone e memorizzare le proprietà con nomi come "pesi" per i pesi
-# Una rete è organizzata in livelli. Il livello di input è in realtà solo una riga del nostro set di dati di addestramento
-# Il primo vero strato è lo strato nascosto. Questo è seguito dal livello di output che ha un neurone per ogni valore di classe
-# Organizzeremo i livelli come array di dizionari e tratteremo l'intera rete come un array di livelli
-# È buona norma inizializzare i pesi della rete su piccoli numeri casuali: in questo caso, utilizzeremo numeri casuali compresi tra 0 e 1
-
-# initialize_network() crea una nuova rete neurale pronta per l'addestramento. Accetta tre parametri, il numero di input, il numero di neuroni
-# da avere nello strato nascosto e il numero di output
-# Puoi vedere che per lo strato nascosto creiamo neuroni = n_hidden e ogni neurone nello strato nascosto ha pesi = n_inputs+1, uno per ogni
-# colonna di input in un set di dati e uno aggiuntivo per il bias
-# Puoi anche vedere che il livello di output che si collega al livello nascosto ha neuroni = n_outputs, ciascuno con pesi = n_hidden+1
-# Ciò significa che ogni neurone nello strato di output si connette a (ha un peso per) ogni neurone nello strato nascosto
+# Backprop on the Seeds Dataset
 from random import seed
+from random import randrange
 from random import random
+from csv import reader
 from math import exp
-
-def initialize_network(n_inputs, n_hidden, n_outputs):
- network = list()
- hidden_layer = [{'weights':[random() for i in range(n_inputs + 1)]} for i in range(n_hidden)]
- network.append(hidden_layer)
- output_layer = [{'weights':[random() for i in range(n_hidden + 1)]} for i in range(n_outputs)]
- network.append(output_layer)
- return network 
-seed(1)
-network = initialize_network(2, 1, 2)
-for layer in network:
- print(layer)
-
-# Possiamo ora calcolare un output da una rete neurale propagando un segnale di input attraverso ciascun livello finché
-# il livello di output non restituisce i suoi valori. Chiamiamo questa propagazione in avanti
-# Questa è la tecnica di cui abbiamo bisogno per generare previsioni durante il training che devono essere corrette
-# Possiamo suddividere questa fase in tre parti: Neuron Activation; Neuron Transfer; Forward Propagation
-
-# Il primo passo è calcolare l'attivazione di un neurone dato un input
-# L'input potrebbe essere una riga del nostro set di dati di addestramento, come nel caso del livello nascosto. Potrebbero anche essere
-# gli output di ciascun neurone nello strato nascosto, nel caso dello strato di output
-# L'attivazione dei neuroni viene calcolata come la somma ponderata degli input. Proprio come la regressione lineare
-activation = sum(weight_i * input_i) + bias
-# Di seguito è riportata un'implementazione di ciò in una funzione denominata activate(). Puoi vedere che la funzione presuppone che
-# il bias sia l'ultimo peso nell'elenco dei pesi. Questo aiuta qui e in seguito a rendere il codice più facile da leggere
+ 
+# Load a CSV file
+def load_csv(filename):
+ dataset = list()
+ with open(filename, 'r') as file:
+ csv_reader = reader(file)
+ for row in csv_reader:
+ if not row:
+ continue
+ dataset.append(row)
+ return dataset
+ 
+# Convert string column to float
+def str_column_to_float(dataset, column):
+ for row in dataset:
+ row[column] = float(row[column].strip())
+ 
+# Convert string column to integer
+def str_column_to_int(dataset, column):
+ class_values = [row[column] for row in dataset]
+ unique = set(class_values)
+ lookup = dict()
+ for i, value in enumerate(unique):
+ lookup[value] = i
+ for row in dataset:
+ row[column] = lookup[row[column]]
+ return lookup
+ 
+# Find the min and max values for each column
+def dataset_minmax(dataset):
+ minmax = list()
+ stats = [[min(column), max(column)] for column in zip(*dataset)]
+ return stats
+ 
+# Rescale dataset columns to the range 0-1
+def normalize_dataset(dataset, minmax):
+ for row in dataset:
+ for i in range(len(row)-1):
+ row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0])
+ 
+# Split a dataset into k folds
+def cross_validation_split(dataset, n_folds):
+ dataset_split = list()
+ dataset_copy = list(dataset)
+ fold_size = int(len(dataset) / n_folds)
+ for i in range(n_folds):
+ fold = list()
+ while len(fold) < fold_size:
+ index = randrange(len(dataset_copy))
+ fold.append(dataset_copy.pop(index))
+ dataset_split.append(fold)
+ return dataset_split
+ 
+# Calculate accuracy percentage
+def accuracy_metric(actual, predicted):
+ correct = 0
+ for i in range(len(actual)):
+ if actual[i] == predicted[i]:
+ correct += 1
+ return correct / float(len(actual)) * 100.0
+ 
+# Evaluate an algorithm using a cross validation split
+def evaluate_algorithm(dataset, algorithm, n_folds, *args):
+ folds = cross_validation_split(dataset, n_folds)
+ scores = list()
+ for fold in folds:
+ train_set = list(folds)
+ train_set.remove(fold)
+ train_set = sum(train_set, [])
+ test_set = list()
+ for row in fold:
+ row_copy = list(row)
+ test_set.append(row_copy)
+ row_copy[-1] = None
+ predicted = algorithm(train_set, test_set, *args)
+ actual = [row[-1] for row in fold]
+ accuracy = accuracy_metric(actual, predicted)
+ scores.append(accuracy)
+ return scores
+ 
+# Calculate neuron activation for an input
 def activate(weights, inputs):
  activation = weights[-1]
  for i in range(len(weights)-1):
  activation += weights[i] * inputs[i]
  return activation
-
-# Una volta attivato un neurone, dobbiamo trasferire l'attivazione per vedere quale sia effettivamente l'output del neurone
-# È possibile utilizzare diverse funzioni di trasferimento. Tradizionalmente si utilizza la funzione di attivazione del sigmoide,
-# ma è anche possibile utilizzare la funzione tangente iperbolica per trasferire gli output. Più recentemente, la funzione di trasferimento
-# del raddrizzatore è diventata popolare tra le grandi reti di deep learning
-# La funzione di attivazione del sigmoide assomiglia a una forma a S, è anche chiamata funzione logistica. Può accettare qualsiasi valore
-# di input e produrre un numero compreso tra 0 e 1 su una curva a S. È anche una funzione di cui possiamo facilmente calcolare la derivata 
-# di cui avremo bisogno in seguito durante la propagazione all'indietro dell'errore
-output = 1 / (1 + e^(-activation))  ## Usando la funzione sigmoide
-# La propagazione in avanti di un input è semplice. Lavoriamo attraverso ogni strato della nostra rete calcolando gli output per ciascun neurone
-# Tutti gli output di uno strato diventano input per i neuroni dello strato successivo.
-# Di seguito è riportata una funzione denominata forward_propagate() che implementa la propagazione in avanti per una riga di dati dal nostro set
-# di dati con la nostra rete neurale. Possiamo vedere che il valore di output di un neurone è memorizzato nel neurone con il nome "output".
-# Possiamo anche vedere che raccogliamo gli output per un livello in un array denominato new_inputs che diventa gli input dell'array e viene
-# utilizzato come input per il livello successivo
+ 
+# Transfer neuron activation
+def transfer(activation):
+ return 1.0 / (1.0 + exp(-activation))
+ 
+# Forward propagate input to a network output
 def forward_propagate(network, row):
  inputs = row
  for layer in network:
@@ -82,42 +106,94 @@ def forward_propagate(network, row):
  new_inputs.append(neuron['output'])
  inputs = new_inputs
  return inputs
-network = [[{'weights': [0.13436424411240122, 0.8474337369372327, 0.763774618976614]}],
- [{'weights': [0.2550690257394217, 0.49543508709194095]}, {'weights': [0.4494910647887381, 0.651592972722763]}]]
-row = [1, 0, None]
-output = forward_propagate(network, row)
-print(output)
-
-# L'algoritmo di backpropagation prende il nome dal modo in cui vengono addestrati i pesi. L'errore viene calcolato tra le uscite 
-# previste e le uscite propagate in avanti dalla rete. Questi errori vengono quindi propagati all'indietro attraverso la rete dallo
-# strato di output allo strato nascosto, assegnando la colpa dell'errore e aggiornando i pesi man mano che procedono
-# La matematica per l'errore di propagazione all'indietro è radicata nel calcolo, ma in questa sezione resteremo ad un livello elevato
-# e ci concentreremo su cosa viene calcolato e come, piuttosto che sul perché, i calcoli assumono questa forma particolare
-# Questa parte è suddivisa in due sezioni: Trasferimento derivato; Errore di backpropagation.
-# Dato un valore di output da un neurone, dobbiamo calcolare la sua pendenza
-derivative = output * (1.0 - output)
+ 
+# Calculate the derivative of an neuron output
 def transfer_derivative(output):
  return output * (1.0 - output)
-
-# Il primo passo è calcolare l'errore per ciascun neurone di output, questo ci darà il nostro segnale di errore (input) da 
-# propagare all'indietro attraverso la rete. L'errore per un dato neurone può essere calcolato come segue
-error = (output - expected) * transfer_derivative(output)
-# expected è l'output atteso per il neurone e transfer_derivative() calcola la pendenza dell'output neurone
-# Questo calcolo viene usato per i neuroni nell'output layer. il valore atteso è il valore della classe stessa
-# Il segnale di errore per un neurone nello strato nascosto è calcolato come l'errore pesato per ogni neurone nell'output layer
-# Il segnale di errore propagato all'indietro viene accumulato e quindi utilizzato per determinare l'errore per il neurone nello strato nascosto
-error = (weight_k * error_j) * transfer_derivative(output)
-
-
-
-
  
-
-
-
-
-
-
-
-
-
+# Backpropagate error and store in neurons
+def backward_propagate_error(network, expected):
+ for i in reversed(range(len(network))):
+ layer = network[i]
+ errors = list()
+ if i != len(network)-1:
+ for j in range(len(layer)):
+ error = 0.0
+ for neuron in network[i + 1]:
+ error += (neuron['weights'][j] * neuron['delta'])
+ errors.append(error)
+ else:
+ for j in range(len(layer)):
+ neuron = layer[j]
+ errors.append(neuron['output'] - expected[j])
+ for j in range(len(layer)):
+ neuron = layer[j]
+ neuron['delta'] = errors[j] * transfer_derivative(neuron['output'])
+ 
+# Update network weights with error
+def update_weights(network, row, l_rate):
+ for i in range(len(network)):
+ inputs = row[:-1]
+ if i != 0:
+ inputs = [neuron['output'] for neuron in network[i - 1]]
+ for neuron in network[i]:
+ for j in range(len(inputs)):
+ neuron['weights'][j] -= l_rate * neuron['delta'] * inputs[j]
+ neuron['weights'][-1] -= l_rate * neuron['delta']
+ 
+# Train a network for a fixed number of epochs
+def train_network(network, train, l_rate, n_epoch, n_outputs):
+ for epoch in range(n_epoch):
+ for row in train:
+ outputs = forward_propagate(network, row)
+ expected = [0 for i in range(n_outputs)]
+ expected[row[-1]] = 1
+ backward_propagate_error(network, expected)
+ update_weights(network, row, l_rate)
+ 
+# Initialize a network
+def initialize_network(n_inputs, n_hidden, n_outputs):
+ network = list()
+ hidden_layer = [{'weights':[random() for i in range(n_inputs + 1)]} for i in range(n_hidden)]
+ network.append(hidden_layer)
+ output_layer = [{'weights':[random() for i in range(n_hidden + 1)]} for i in range(n_outputs)]
+ network.append(output_layer)
+ return network
+ 
+# Make a prediction with a network
+def predict(network, row):
+ outputs = forward_propagate(network, row)
+ return outputs.index(max(outputs))
+ 
+# Backpropagation Algorithm With Stochastic Gradient Descent
+def back_propagation(train, test, l_rate, n_epoch, n_hidden):
+ n_inputs = len(train[0]) - 1
+ n_outputs = len(set([row[-1] for row in train]))
+ network = initialize_network(n_inputs, n_hidden, n_outputs)
+ train_network(network, train, l_rate, n_epoch, n_outputs)
+ predictions = list()
+ for row in test:
+ prediction = predict(network, row)
+ predictions.append(prediction)
+ return(predictions)
+ 
+# Test Backprop on Seeds dataset
+seed(1)
+# load and prepare data
+filename = 'seeds_dataset.csv'
+dataset = load_csv(filename)
+for i in range(len(dataset[0])-1):
+ str_column_to_float(dataset, i)
+# convert class column to integers
+str_column_to_int(dataset, len(dataset[0])-1)
+# normalize input variables
+minmax = dataset_minmax(dataset)
+normalize_dataset(dataset, minmax)
+# evaluate algorithm
+n_folds = 5
+l_rate = 0.3
+n_epoch = 500
+n_hidden = 5
+scores = evaluate_algorithm(dataset, back_propagation, n_folds, l_rate, n_epoch, n_hidden)
+print('Scores: %s' % scores)
+print('Mean Accuracy: %.3f%%' % (sum(scores)/float(len(scores))))
