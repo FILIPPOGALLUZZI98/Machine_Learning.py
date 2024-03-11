@@ -156,7 +156,7 @@ print(activation1.output)
 
 
 
-layer_outputs = [4.8, 1.21, 2.385]
+## ARRIVATO A LEZIONE 6 DA FARE
 
 
 
