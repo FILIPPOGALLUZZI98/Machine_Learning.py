@@ -25,6 +25,9 @@ output = [inputs[0]*weights1[0] + inputs[1]*weights1[1] + inputs[2]*weights1[2] 
           inputs[0]*weights3[0] + inputs[1]*weights3[1] + inputs[2]*weights3[2] +  inputs[3]*weights3[3] + bias3]
 print(output)
 
+
+
+
 # Versione migliorata:
 inputs = [1, 2, 3, 2.5]
 weights = [[0.2, 0.8, -0.5, 1], 
@@ -51,8 +54,10 @@ weights = [[0.2, 0.8, -0.5, 1],
            [0.5, -0.91, 0.26, -0.5], 
            [-0.26, -0.27, 0.17, 0.87]]
 biases = [2, 3, 0.5]
-output = np.dot(weights, inputs) + bias  ## weights devono essere primi (indicizzazione della matrice)
+output = np.dot(weights, inputs) + bias  ## weights devono essere per primi (indicizzazione della matrice)
 print(output)
+
+
 
 
 # BATCH
@@ -153,6 +158,7 @@ print(norm_values)
 
 ####################################################################################################
 ####################################################################################################
+# VERSIONE FINALE
 import numpy as np
 import nnfs
 from nnfs.dataset import spiral_data
