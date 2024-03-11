@@ -8,6 +8,8 @@ output = inputs[0]*weights[0] + inputs[1]*weights[1] + inputs[2]*weights[2] +  i
 print(output)
 
 
+
+
 # Passiamo ora a 3 neuroni con 4 input (e quindi 3 output)
 inputs = [1, 2, 3, 2.5]
 # Ci saranno 3 set di pesi ed ognuno di essi avrà 4 valori più 3 bias
@@ -36,6 +38,8 @@ for neuron_weights, neuron_bias in zip(weights, biases):
           neuron_output += neuron_bias
           layer_outputs.append(neuron_output)
 print(layer_outputs)
+
+
 
 
 # Dot product
@@ -78,11 +82,50 @@ layer2_outputs = np.dot(layer1_outputs, np.array(weights2).T) + biases2
 print(layer2_outputs)
 
 
+
+
 # Invece di scrivere molti layer possiamo usare una classe
+import numpy as np
+np.random.seed(0)
+
 X = [[1, 2, 3, 2.5], 
      [2, 5, -1, 2], 
      [-1.5, 2.7, 3.3, -0.8]]
 # Definiamo gli hidden layer
+class Layer_Dense:
+          def __init__(self, n_inputs, n_neurons):
+                    self.weights = 0.10*np.random.randn(n_inputs, n_neurons)  
+                    self.biases = np.zeros((1, n_neurons))
+          def forward(self, inputs):
+                    self.output = np.dot(inputs, self.weights) + self.biases
+layer1 = Layer_Dense(4, 5)  ## 5 può essere qualsiasi caso
+layer2 = Layer_Dense(5, 2)  ## 5 deve essere uguale all'output del primo, 2 a caso
+layer1.forward(X)
+layer2.forward(layer1.output)
+print(layer2.output)
+# Per inzializzare solitamente si usa 0, ma non sempre conviene
+
+
+
+
+# SIGMOID ACTIVATION FUNCTION
+# Matematicamente abbiamo bisogno di funzioni di attivazione invece di funzioni lineari perché
+# altrimenti la risposta della rete neurale sarebbe lineare
+import numpy as np
+import nnfs
+nnfs.init()
+np.random.seed(0)
+
+X = [[1, 2, 3, 2.5], 
+     [2, 5, -1, 2], 
+     [-1.5, 2.7, 3.3, -0.8]]
+inputs = [0, 2, -1, 3,3, -2.7, 1.1, 2.2, -100]
+output = []
+for i in inputs:
+          output.append(max(0,i))
+class Activation_ReLU:
+          def forward(self, inputs):
+                    self.output = np.maximum(0, inputs)
 
 
 
