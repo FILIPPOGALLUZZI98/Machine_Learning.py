@@ -50,8 +50,17 @@ knn = KNeighborsClassifier(n_neighbors=1)  ## Impostiamo il numero di vicini ugu
 # Per costruire il modello sul training set, applichiamo il metodo fit all'oggetto knn
 knn.fit(X_train, y_train)
 # Il metodo fit restituisce l'oggetto knn stesso, quindi abbiamo una rappresentazione di stringa del classifier
-CONTINUA DA PAGINA 22
 
+# Per fare la previsione
+X_new = np.array([[5, 2.9, 1, 0.2]])  ## Inseriamo le nuove misurazioni di un fiore
+prediction = knn.predict(X_new)
+print("Prediction: {}".format(prediction))
+print("Predicted target name: {}".format(
+iris_dataset['target_names'][prediction]))
+# Per sapere se il modello è accurato
+y_pred = knn.predict(X_test)
+print("Test set predictions:\n {}".format(y_pred))
+print("Test set score: {:.2f}".format(np.mean(y_pred == y_test)))
 
 
 
