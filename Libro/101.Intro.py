@@ -41,7 +41,7 @@ hist_kwds={'bins': 20}, s=60, alpha=.8, cmap=mglearn.cm3)
 # Dai grafici si osserva che le classi sembrano relativamente ben separate usando sepal e petal measurements
 
 # In questo caso usiamo il metodo k-nearest neighbors classifier (k significa che, invece di considerare solo
-# il più vicino, consideriamo un numerofisso k di vicini)
+# il più vicino, consideriamo un numero fisso k di vicini)
 # Tutti i modelli ML in scikit-learn sono implementati nelle loro classi, chiamate estimator classes
 from sklearn.neighbors import KNeighborsClassifier
 knn = KNeighborsClassifier(n_neighbors=1)  ## Impostiamo il numero di vicini uguale a 1
