@@ -36,7 +36,7 @@ plt.show()
 w = 100
 b = 100
 
-def compute_model_output(x, w, b):
+def model(x, w, b):
     m = x.shape[0]
     f_wb = np.zeros(m)
     for i in range(m):
@@ -44,7 +44,7 @@ def compute_model_output(x, w, b):
     return f_wb
 
 # Per vedere se funziona
-tmp_f_wb = compute_model_output(x_train, w, b,)
+tmp_f_wb = model(x_train, w, b,)
 
 # Plot our model prediction
 plt.plot(x_train, tmp_f_wb, c='b',label='Our Prediction')
