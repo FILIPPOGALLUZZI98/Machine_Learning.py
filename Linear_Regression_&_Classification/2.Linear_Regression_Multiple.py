@@ -19,7 +19,7 @@ def predict(x, w, b):
     return p  ## p -> previsione
 
 # Per fare una previsione
-x_vec = np.array([[2000, 3, 2, 10])
+x_vec = np.array([[2000, 3, 2, 10]])
 f_wb = predict(x_vec, w_init, b_init)
 
 
