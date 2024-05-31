@@ -3,8 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # In questo caso usiamo la vettorizzazione 
+# Il modello sarà del tipo f_wb = w_1*x_1 + w_2*x_2 + ... + b
 
-# Dataset che contiene (area, # camere, # piani, età della casa)
+# Dataset (che contiene: area, # camere, # piani, età della casa)
 X_train = np.array([[2104, 5, 1, 45], [1416, 3, 2, 40], [852, 2, 1, 35]])
 y_train = np.array([460, 232, 178])  ## Prezzo
 
@@ -15,7 +16,7 @@ w_init = np.array([ 0.39133535, 18.75376741, -53.36032453, -26.42131618])
 # Impostiamo la funzione per fare la previsione (ovvero il modello, usando la vettorizzazione)
 def predict(x, w, b): 
     p = np.dot(x, w) + b     
-    return p  ## p = previsione
+    return p  ## p -> previsione
 
 # Per fare una previsione
 x_vec = np.array([[2000, 3, 2, 10])
