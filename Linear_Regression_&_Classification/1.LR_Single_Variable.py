@@ -11,7 +11,7 @@ import math, copy
 #############################################################################################
 #### MODELLO 
 
-# Il modello sarà del tipo f_wb = w_1*x_1 + w_2*x_2 + ... + b
+# Il modello sarà del tipo f_wb = w_x + b
 
 # Supponiamo di avere i seguenti dati sull'area (x) e sul prezzo (y)
 x_train = np.array([1.0, 2.0])
@@ -19,11 +19,6 @@ y_train = np.array([300.0, 500.0])
 
 # Chiameremo con m il numero di training examples
 m = x_train.shape[0]  ## [0] indica la dimensione di x di cui vogliamo sapere la lunghezza
-
-# Possiamo anche usare la forma generale
-i = 0 
-x_i = x_train[i]
-y_i = y_train[i]
 
 # Facciamo il grafico per vedere che forma hanno
 plt.scatter(x_train, y_train, marker='x', c='r')
@@ -33,8 +28,7 @@ plt.xlabel('Size (1000 sqft)')
 plt.show()
 
 # Costruiamo ora la funzione del modello con valori di w e b scelti a caso (per ora)
-w = 100
-b = 100
+w = 100; b = 100
 
 def model(x, w, b):
     m = x.shape[0]
