@@ -17,23 +17,6 @@ plt.show()
 
 #############################################################################################
 #############################################################################################
-####  LEARNING RATE
-
-# Impostiamo alpha = 9.9e-7
-_, _, hist = gradient_descent(X_train, y_train, 10, alpha = 9.9e-7)
-plot_cost_i_w(X_train, y_train, hist)
-
-# Impostiamo alpha = 9e-7
-_,_,hist = gradient_descent(X_train, y_train, 10, alpha = 9e-7)
-plot_cost_i_w(X_train, y_train, hist)
-
-# Impostiamo alpha = 1e-7
-_,_,hist = gradient_descent(X_train, y_train, 10, alpha = 1e-7)
-plot_cost_i_w(X_train,y_train,hist)
-
-
-#############################################################################################
-#############################################################################################
 #### FEATURE SCALING
 
 def zscore_normalize_features(X):
@@ -65,7 +48,9 @@ fig.suptitle("distribution of features after normalization")
 plt.show()
 
 # A questo punto rifacciamo il GD
-w_norm, b_norm, hist = gradient_descent(X_norm, y_train, 1000, 1.0e-1, )
+w_i = 0.1
+b_i = 0.2
+w_norm, b_norm, hist = gradient_descent(X_norm, y_train, w_i, b_i, cost, compute_gradient,0.01, 1000)
 
 
 
