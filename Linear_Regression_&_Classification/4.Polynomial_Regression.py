@@ -9,7 +9,7 @@ y = 1 + x**2
 X = x.reshape(-1, 1)
 
 # Facciamo il GD algorithm
-model_w,model_b = gradient_descent(X,y,num_iters=1000, alpha = 1e-2, )
+model_w,model_b = gradient_descent(X,y,w_in,b_in,cost, compute_gradient,alpha,num_iters=1000)
 plt.scatter(x, y, marker='x', c='r', label="Actual Value"); plt.title("no feature engineering")
 plt.plot(x,X@model_w + model_b, label="Predicted Value");  plt.xlabel("X"); plt.ylabel("y"); plt.legend(); plt.show()
 # Questo non è un buon fit perché stiamo modellizzando qualcosa di quadratico con un modello lineare 
