@@ -58,20 +58,20 @@ def compute_gradient(X, y, w, b):
 
 
 # Per fare il GD in più dimensioni
-def gradient_descent(X, y, w_in, b_in, cost_function, gradient_function, alpha, num_iters): 
+def gradient_descent(X, y, w_in, b_in, cost, compute_gradient, alpha, num_iters): 
     # An array to store cost J and w's at each iteration primarily for graphing later
     J_history = []
     w = copy.deepcopy(w_in)  #avoid modifying global w within function
     b = b_in
     for i in range(num_iters):
         # Calculate the gradient and update the parameters
-        dj_db,dj_dw = gradient_function(X, y, w, b)   ##None
+        dj_db,dj_dw = compute_gradient(X, y, w, b)   ##None
         # Update Parameters using w, b, alpha and gradient
         w = w - alpha * dj_dw               ##None
         b = b - alpha * dj_db               ##None  
         # Save cost J at each iteration
         if i<100000:      # prevent resource exhaustion 
-            J_history.append( cost_function(X, y, w, b))
+            J_history.append( cost(X, y, w, b))
         # Print cost every at intervals 10 times or as many iterations if < 10
         if i% math.ceil(num_iters / 10) == 0:
             print(f"Iteration {i:4d}: Cost {J_history[-1]:8.2f}   ")     
