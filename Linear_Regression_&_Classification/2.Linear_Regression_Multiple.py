@@ -85,7 +85,7 @@ iterations = 1000
 alpha = 5.0e-7
 # Run gradient descent 
 w_final, b_final, J_hist = gradient_descent(X_train, y_train, initial_w, initial_b,
-                                                    compute_cost, compute_gradient, 
+                                                    cost, compute_gradient, 
                                                     alpha, iterations)
 print(f"b,w found by gradient descent: {b_final:0.2f},{w_final} ")
 m,_ = X_train.shape
