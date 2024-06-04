@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import SGDRegressor
 from sklearn.preprocessing import StandardScaler
 
+
+#############################################################################
+#############################################################################
+##  Linear Regression
 # Scikit-learn has a gradient descent regression model sklearn.linear_model.SGDRegressor
 # Like your previous implementation of gradient descent, this model performs best with normalized inputs
 # sklearn.preprocessing.StandardScaler will perform z-score normalization as in a previous lab. Here it is referred to as 'standard score'
@@ -39,12 +43,25 @@ fig.suptitle("target versus prediction using z-score normalized model")
 plt.show()
 
 
+#############################################################################
+#############################################################################
+##  Logistic Regression
 
+import numpy as np
+X = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
+y = np.array([0, 0, 0, 1, 1, 1])
 
+# Fit the model
+from sklearn.linear_model import LogisticRegression
+lr_model = LogisticRegression()
+lr_model.fit(X, y)
 
+# making prediction
+y_pred = lr_model.predict(X)
+print("Prediction on training set:", y_pred)
 
-
-
+# Calculate accuracy
+print("Accuracy on training set:", lr_model.score(X, y))
 
 
 
