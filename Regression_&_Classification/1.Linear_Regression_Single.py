@@ -2,15 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math, copy
 
-
-#############################################################################################
-#############################################################################################
-
-# Il modello sarà del tipo f_wb = w_x + b
+# Il modello sarà del tipo f_wb = w*x + b
 
 # Consideriamo i seguenti dati
 x_train = np.array([1.0, 1.7, 2.0, 2.5, 3.0, 3.2])
 y_train = np.array([250, 300, 480,  430,   630, 730,]) 
+
+#############################################################################################
+#############################################################################################
+#### MODELLO E PLOT DEI DATI
 
 # Facciamo il grafico per vedere che forma hanno i dati
 plt.scatter(x_train, y_train, marker='x', c='r')
@@ -18,7 +18,6 @@ plt.show()
 
 # Costruiamo ora la funzione del modello con valori di w e b scelti a caso (per ora)
 w = 100; b = 100
-
 def model_single(x, w, b):
     m = x.shape[0]  ## [0] indica la dimensione del dataset, ovvero il # di training examples
     f_wb = np.zeros(m)
@@ -27,7 +26,7 @@ def model_single(x, w, b):
     return f_wb
 
 # Per applicare il modello
-tmp_f_wb = model(x_train, w, b,)
+tmp_f_wb = model_single(x_train, w, b,)
 # Plot our model prediction
 plt.plot(x_train, tmp_f_wb, c='b',label='Our Prediction')
 # Plot the data points
@@ -97,7 +96,7 @@ iterations = 10000
 tmp_alpha = 1.0e-2
 # Run gradient descent
 w_final, b_final, J_hist, p_hist = gradient_descent_single(x_train ,y_train, w_init, b_init, tmp_alpha, 
-                                                    iterations, cost, gradient)
+                                                    iterations, cost_single, gradient_single)
 
 
 
