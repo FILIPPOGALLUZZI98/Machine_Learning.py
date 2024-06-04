@@ -38,7 +38,7 @@ plt.show()
 #### GRADIENT DESCENT ALGORITHM
 
 # Funzione per calcolare la Cost Function
-def cost_single(x, y, w, b): 
+def cost_function_single(x, y, w, b): 
     m = x.shape[0] 
     cost_sum = 0 
     for i in range(m): 
@@ -66,7 +66,7 @@ def gradient_single(x, y, w, b):
 
 
 # Funzione per il Gradient Descent (GD)
-def gradient_descent_single(x, y, w_in, b_in, alpha, num_iters, cost_single, gradient_single): 
+def gradient_descent_single(x, y, w_in, b_in, alpha, num_iters, cost_function_single, gradient_single): 
     J_history = []
     p_history = []
     b = b_in
@@ -79,7 +79,7 @@ def gradient_descent_single(x, y, w_in, b_in, alpha, num_iters, cost_single, gra
         w = w - alpha * dj_dw                            
         # Save cost J at each iteration
         if i<100000:      # prevent resource exhaustion 
-            J_history.append( cost_single(x, y, w , b))
+            J_history.append( cost_function_single(x, y, w , b))
             p_history.append([w,b])
         # Print cost every at intervals 10 times or as many iterations if < 10
         if i% math.ceil(num_iters/10) == 0:
@@ -96,7 +96,7 @@ iterations = 10000
 tmp_alpha = 1.0e-2
 # Run gradient descent
 w_final, b_final, J_hist, p_hist = gradient_descent_single(x_train ,y_train, w_init, b_init, tmp_alpha, 
-                                                    iterations, cost_single, gradient_single)
+                                                    iterations, cost_function_single, gradient_single)
 
 
 
