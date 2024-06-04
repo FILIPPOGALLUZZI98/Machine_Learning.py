@@ -2,15 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math, copy
 
+
+#############################################################################################
+#############################################################################################
+
 # Il modello sarà del tipo f_wb = w_x + b
 
 # Consideriamo i seguenti dati
 x_train = np.array([1.0, 1.7, 2.0, 2.5, 3.0, 3.2])
 y_train = np.array([250, 300, 480,  430,   630, 730,]) 
-
-#############################################################################################
-#############################################################################################
-#### MODELLO 
 
 # Facciamo il grafico per vedere che forma hanno i dati
 plt.scatter(x_train, y_train, marker='x', c='r')
@@ -36,7 +36,7 @@ plt.show()
 
 #############################################################################################
 #############################################################################################
-#### COST FUNCTION
+#### GRADIENT DESCENT ALGORITHM
 
 # Funzione per calcolare la Cost Function
 def cost_single(x, y, w, b): 
@@ -49,10 +49,6 @@ def cost_single(x, y, w, b):
     cost = (1 / (2 * m)) * cost_sum  
     return cost
 
-
-#############################################################################################
-#############################################################################################
-#### GRADIENT DESCENT
 
 # Funzione per la derivata (gradiente)
 def gradient_single(x, y, w, b): 
