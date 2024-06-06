@@ -1,5 +1,4 @@
 # Codice per implementare una rete neurale semplice
-# Come esempio: Roasting Coffee: 2 layer con #neuroni = 3, 1
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -8,6 +7,44 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.losses import MeanSquaredError, BinaryCrossentropy
 from tensorflow.keras.activations import sigmoid
 
+#############################################################################################
+#############################################################################################
+####  HANDWRITTEN DIGIT RECOGNITION: 0-1 (vedi appunti quaderno)
+
+# Questo codice è solo per dimostrazione, non funziona 
+# NN con 3 layer: 25, 15, 1
+x = np.array([[0..0, ..., 245, ..., 12, 0]])  ## I valori sono le intensità dei vari pixel
+                                              ##  che compongono l'immagine 
+layer_1 = Dense(units=25, activation='sigmoid')  ## Primo layer con 25 neuroni
+a1 = layer_1(x)
+layer_2 = Dense(units=15, activation='sigmoid')  ## Secondo layer con 15 neuroni
+a2 = layer_2(a1)
+layer_3 = Dense(units=1, activation='sigmoid')  ## Terzo layer (output) con 1 neurone
+a3 = layer_3(a2)
+
+# Per fare la previsione del numero
+if a3 >= 0.5:
+  yhat = 1
+else:
+  yhat = 0
+
+
+# Per rendere il modello più compatto e veloce
+model = Sequential([
+        tf.keras.Input(shape=(2,)),
+        Dense(25, activation='sigmoid', name = 'layer1'),
+        Dense(15, activation='sigmoid', name = 'layer2'),
+        Dense(1, activattion='sigmoid', name = 'output')])
+
+# Per conoscere i pesi e i bias
+W1, b1 = model.get_layer("layer1").get_weights()
+W2, b2 = model.get_layer("layer2").get_weights()
+
+#############################################################################################
+#############################################################################################
+####  ROASTING COFFEE: GOOD OR BAD (Temperature and Time)
+
+# Roasting Coffee: 2 layer con neuroni = 3, 1
 # I dati in input sono X = (Temperatura, Tempo) e Y = (Buono = 1, Non Buono = 0)
 # Usiamo come input
 X = np.array([[185.32,  12.69],  [259.92,  11.87],  [231.01 , 14.41],  [175.37 , 11.72],  [187.12 , 14.13],
@@ -32,7 +69,6 @@ Xn = norm_l(X)
 Xt = np.tile(Xn,(1000,1))
 Yt= np.tile(Y,(1000,1))   
 print(Xt.shape, Yt.shape) 
-
 
 # A questo punto possiamo costruire il modello
 tf.random.set_seed(1234)  ## Per avere lo stesso valore se ripetuto 
