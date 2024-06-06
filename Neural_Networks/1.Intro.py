@@ -69,6 +69,27 @@ print(logistic_layer.get_weights())
 plt_logistic(X_train, Y_train, model, set_w, set_b, pos, neg)
 
 
+#############################################################################################
+#############################################################################################
+####  HANDWRITTEN DIGIT RECOGNITION: 0-1 (vedi appunti quaderno)
+
+# Questo codice è solo per dimostrazione, non funziona 
+# NN con 3 layer: 25, 25, 1
+x = np.array([[0..0, ..., 245, ..., 12, 0]])  ## I valori sono le intensità dei vari pixel
+                                              ##  che compongono l'immagine 
+layer_1 = Dense(units=25, activation='sigmoid')
+a1 = layer_1(x)
+layer_2 = Dense(units=15, activation='sigmoid')
+a2 = layer_2(a1)
+layer_3 = Dense(units=1, activation='sigmoid')
+a3 = layer_3(a2)
+
+# Per fare la previsione del numero
+if a3 >= 0.5:
+  yhat = 1
+else:
+  yhat = 0
+
 
 
 
