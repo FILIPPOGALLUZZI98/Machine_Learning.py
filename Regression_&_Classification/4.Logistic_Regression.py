@@ -1,3 +1,10 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math, copy
+
+# La logistic regression viene usata nei problemi di classificazione (binaria)
+# e anche come funzione di attivazione nelle reti neurali
+
 # Implementation of sigmoid function:
 def sigmoid(z):
     g = 1/(1+np.exp(-z))   
@@ -31,8 +38,6 @@ def gradient_logistic(X, y, w, b):
 
 # Gradient Descent
 def gradient_descent(X, y, w_in, b_in, alpha, num_iters): 
-    # An array to store cost J and w's at each iteration primarily for graphing later
-    J_history = []
     w = copy.deepcopy(w_in)  #avoid modifying global w within function
     b = b_in
     for i in range(num_iters):
@@ -41,23 +46,13 @@ def gradient_descent(X, y, w_in, b_in, alpha, num_iters):
         # Update Parameters using w, b, alpha and gradient
         w = w - alpha * dj_dw               
         b = b - alpha * dj_db               
-        # Save cost J at each iteration
-        if i<100000:      # prevent resource exhaustion 
-            J_history.append( cost_logistic(X, y, w, b) )
-        # Print cost every at intervals 10 times or as many iterations if < 10
-        if i% math.ceil(num_iters / 10) == 0:
-            print(f"Iteration {i:4d}: Cost {J_history[-1]}   ")
-    return w, b, J_history         #return final w,b and J history for graphing
-
+    return w, b   
 
 
 # Per fare prova
 X_train = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
 y_train = np.array([0, 0, 0, 1, 1, 1])
-w_tmp  = np.zeros_like(X_train[0])
-b_tmp  = 0.
-alph = 0.1
-iters = 10000
-w_out, b_out, _ = gradient_descent(X_train, y_train, w_tmp, b_tmp, alph, iters) 
-w_out; b_out
+w_tmp  = np.zeros_like(X_train[0]); b_tmp  = 0.; alph = 0.1; iters = 10000
+w_out, b_out = gradient_descent(X_train, y_train, w_tmp, b_tmp, alph, iters) 
+print(w_out); print(b_out)
 
