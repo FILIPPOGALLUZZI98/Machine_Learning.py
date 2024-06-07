@@ -19,7 +19,6 @@ fig, ax = plt.subplots(1,1); ax.scatter(X_train, Y_train); plt.show()
 
 # Definiamo un layer con un solo neurone e lo compariamo con la regressione lineare
 linear_layer = tf.keras.layers.Dense(units=1, activation = 'linear', )
-
 # Inserendo il vettore X_train allora i pesi vengono inizializzati (con valori w piccoli e b=0)
 a1 = linear_layer(X_train[0].reshape(1,1))  ## Funzione di attivazione
 print(a1)
@@ -45,7 +44,6 @@ plt_linear(X_train, Y_train, prediction_tf, prediction_np)  ## In questo caso è
 X_train = np.array([0., 1, 2, 3, 4, 5], dtype=np.float32).reshape(-1,1)
 Y_train = np.array([0,  0, 0, 1, 1, 1], dtype=np.float32).reshape(-1,1)
 pos = Y_train == 1; neg = Y_train == 0
-
 fig,ax = plt.subplots(1,1,figsize=(4,3))
 ax.scatter(X_train[pos], Y_train[pos], marker='x', s=80, c = 'red', label="y=1")
 ax.scatter(X_train[neg], Y_train[neg], marker='o', s=100, label="y=0", c='blue',lw=1)
@@ -60,7 +58,7 @@ w,b = logistic_layer.get_weights()
 print(w,b)
 print(w.shape,b.shape)
 
-# Impostare pesio e bias con valori scelti
+# Impostare pesi e bias con valori scelti
 set_w = np.array([[2]]); set_b = np.array([-4.5])
 logistic_layer.set_weights([set_w, set_b])
 print(logistic_layer.get_weights())
