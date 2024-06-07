@@ -7,6 +7,7 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.losses import MeanSquaredError, BinaryCrossentropy
 from tensorflow.keras.activations import sigmoid
 
+
 #############################################################################################
 #############################################################################################
 ####  HANDWRITTEN DIGIT RECOGNITION: 0-1 (vedi appunti quaderno)
@@ -40,13 +41,14 @@ model = Sequential([
 W1, b1 = model.get_layer("layer1").get_weights()
 W2, b2 = model.get_layer("layer2").get_weights()
 
+
 #############################################################################################
 #############################################################################################
 ####  ROASTING COFFEE: GOOD OR BAD (Temperature and Time)
 
 # Roasting Coffee: 2 layer con neuroni = 3, 1
 # I dati in input sono X = (Temperatura, Tempo) e Y = (Buono = 1, Non Buono = 0)
-# Usiamo come input
+# Usiamo come input in X alcune combinazioni di T e t e per Y il corrispondente valore (0 o 1)
 X = np.array([[185.32,  12.69],  [259.92,  11.87],  [231.01 , 14.41],  [175.37 , 11.72],  [187.12 , 14.13],
      [225.91 , 12.1 ], [208.41 , 14.18],  [207.08 , 14.03],  [280.6  , 14.23],  [202.87 , 12.25],
      [196.7, 13.54], [270.31, 14.6], [192.95, 15.2], [213.57, 14.28], [164.47, 11.92],
@@ -55,6 +57,7 @@ X = np.array([[185.32,  12.69],  [259.92,  11.87],  [231.01 , 14.41],  [175.37 ,
      [244.76, 13.33], [271.19, 14.84], [201.99, 15.39]])
 Y = np.array([[1.],  [0.],  [0.],  [0.],  [1.],  [1.],  [0.],  [0.],  [0.],  [1.], 
              [1.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [1.], [0.], [0.], [0.], [0.]])
+# Plot dei dati
 for i in range(len(Y)):
     if Y[i] == 0:
         plt.scatter(X[i, 0], X[i, 1], color='blue', label='Class 0' if i == 0 else "")
@@ -70,7 +73,7 @@ Xt = np.tile(Xn,(1000,1))
 Yt= np.tile(Y,(1000,1))   
 print(Xt.shape, Yt.shape) 
 
-# A questo punto possiamo costruire il modello
+# A questo punto possiamo costruire il modello di rete neurale
 tf.random.set_seed(1234)  ## Per avere lo stesso valore se ripetuto 
 model = Sequential([
         tf.keras.Input(shape=(2,)),
@@ -82,6 +85,7 @@ W1, b1 = model.get_layer("layer1").get_weights()
 W2, b2 = model.get_layer("layer2").get_weights()
 
 
+# Questo codice usa la backpropagation per allenare il modello: vedere file successivi
 # The model.compile statement defines a loss function and specifies a compile optimization.
 # The model.fit statement runs gradient descent and fits the weights to the data.
 model.compile(
