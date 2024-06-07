@@ -13,11 +13,9 @@ y_train = np.array([250, 300, 480,  430,   630, 730,])
 ####  MODELLO E PLOT DEI DATI
 
 # Facciamo il grafico per vedere che forma hanno i dati
-plt.scatter(x_train, y_train, marker='x', c='r')
-plt.show()
+plt.scatter(x_train, y_train, marker='x', c='r'); plt.show()
 
-# Costruiamo ora la funzione del modello con valori di w e b scelti a caso (per ora)
-w = 100; b = 100
+# Costruiamo ora la funzione che restituisce f_wb=yhat, ovvero la previsione
 def model_single(x, w, b):
     m = x.shape[0]  ## [0] indica la dimensione del dataset, ovvero il # di training examples
     f_wb = np.zeros(m)
@@ -25,17 +23,18 @@ def model_single(x, w, b):
         f_wb[i] = w * x[i] + b      
     return f_wb
 
-# Per applicare il modello
-tmp_f_wb = model_single(x_train, w, b,)
-# Plot our model prediction
+# Per applicare il modello, scegliamo (a caso, per ora) i valori dei pesi e del bias
+w = 100; b = 100
+tmp_f_wb = model_single(x_train, w, b)
+# Plot our model prediction and the overlapped data points
 plt.plot(x_train, tmp_f_wb, c='b',label='Our Prediction')
-# Plot the data points
 plt.scatter(x_train, y_train, marker='x', c='r',label='Actual Values')
 plt.show()
 
+
 #############################################################################################
 #############################################################################################
-####  GRADIENT DESCENT ALGORITHM
+####  GRADIENT DESCENT ALGORITHM (per trovare w, b)
 
 # Funzione per calcolare la Cost Function
 def cost_function_single(x, y, w, b): 
@@ -47,7 +46,6 @@ def cost_function_single(x, y, w, b):
         cost_sum = cost_sum + temp_cost  
     cost = (1 / (2 * m)) * cost_sum  
     return cost
-
 
 # Funzione per la derivata (gradiente)
 def gradient_single(x, y, w, b): 
@@ -64,11 +62,8 @@ def gradient_single(x, y, w, b):
     dj_db = dj_db / m 
     return dj_dw, dj_db
 
-
 # Funzione per il Gradient Descent (GD)
 def gradient_descent_single(x, y, w_in, b_in, alpha, num_iters, cost_function_single, gradient_single): 
-    J_history = []
-    p_history = []
     b = b_in
     w = w_in
     for i in range(num_iters):
@@ -77,28 +72,20 @@ def gradient_descent_single(x, y, w_in, b_in, alpha, num_iters, cost_function_si
         # Update Parameters using equation (3) above
         b = b - alpha * dj_db                            
         w = w - alpha * dj_dw                            
-        # Save cost J at each iteration
-        if i<100000:      # prevent resource exhaustion 
-            J_history.append( cost_function_single(x, y, w , b))
-            p_history.append([w,b])
-        # Print cost every at intervals 10 times or as many iterations if < 10
-        if i% math.ceil(num_iters/10) == 0:
-            print(f"Iteration {i:4}: Cost {J_history[-1]:0.2e} ",
-                  f"dj_dw: {dj_dw: 0.3e}, dj_db: {dj_db: 0.3e}  ",
-                  f"w: {w: 0.3e}, b:{b: 0.5e}")
-    return w, b, J_history, p_history #return w and J,w history for graphing
-
+    return w, b 
 
 # Per applicare il GD è necessario impostare il punto di partenza e altre variabili
-w_init = 0
-b_init = 0
-iterations = 10000
-tmp_alpha = 1.0e-2
+w_init = 0; b_init = 0; iterations = 10000; tmp_alpha = 1.0e-2
 # Run gradient descent
-w_final, b_final, J_hist, p_hist = gradient_descent_single(x_train ,y_train, w_init, b_init, tmp_alpha, 
-                                                    iterations, cost_function_single, gradient_single)
+w_final, b_final = gradient_descent_single(x_train ,y_train, w_init, b_init, tmp_alpha, 
+                                           iterations, cost_function_single, gradient_single)
+print(w_final); print(b_final)
 
-
+# A questo punto, per vedere la retta trovata
+f_wb = model_single(x_train, w_final, b_final)
+plt.plot(x_train, f_wb, c='b',label='Our Prediction')
+plt.scatter(x_train, y_train, marker='x', c='r',label='Actual Values')
+plt.show()
 
 
 
