@@ -34,7 +34,7 @@ model = Sequential([
         tf.keras.Input(shape=(2,)),
         Dense(25, activation='sigmoid', name = 'layer1'),
         Dense(15, activation='sigmoid', name = 'layer2'),
-        Dense(1, activattion='sigmoid', name = 'output')])
+        Dense(1, activation='sigmoid', name = 'output')])
 
 # Per conoscere i pesi e i bias
 W1, b1 = model.get_layer("layer1").get_weights()
