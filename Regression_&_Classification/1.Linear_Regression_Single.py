@@ -13,7 +13,7 @@ y_train = np.array([250, 300, 480,  430,   630, 730,])
 
 #############################################################################################
 #############################################################################################
-####  MODELLO E PLOT DEI DATI
+####  MODELLO
 
 # Facciamo il grafico per vedere che forma hanno i dati
 plt.scatter(x_train, y_train, marker='x', c='r'); plt.show()
