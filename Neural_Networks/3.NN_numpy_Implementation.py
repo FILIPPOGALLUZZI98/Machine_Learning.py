@@ -1,10 +1,10 @@
-# Codice per implementare una rete neurale senza pytorch ma direttamente da numpy
-
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
+# Importare la sigmoid function
 
-g = sigmoid  ## Va importata o scritta di nuovo
+# Codice per implementare una rete neurale senza pytorch ma direttamente da numpy
+
 x = np.array([200, 17])
 W = np.array([[1,-3,5],
               [-2,4,-6)]])
@@ -26,7 +26,7 @@ def my_sequential(x, W1, b1, W2, b2):
     a2 = my_dense(a1, W2, b2)
     return(a2)
 
-# Funzinoe per fare una previsione
+# Funzione per fare una previsione
 def my_predict(X, W1, b1, W2, b2):
     m = X.shape[0]
     p = np.zeros((m,1))
@@ -47,6 +47,7 @@ print(f"decisions = \n{yhat}")
 #############################################################################################
 #############################################################################################
 ####  VECTORIZATION
+
 # Usando la vettorizzazione (ricordando che i vettori sono diversi in pytorch e numpy
 # Gli algoritmi sono più efficenti e veloci
 
