@@ -1,3 +1,5 @@
+# Codice per implementare una rete neurale senza pytorch ma direttamente da numpy
+
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
