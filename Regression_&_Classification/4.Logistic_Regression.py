@@ -4,6 +4,7 @@ import math, copy
 
 # La logistic regression viene usata nei problemi di classificazione (binaria)
 # e anche come funzione di attivazione nelle reti neurali
+# Codice per logistic regression con più variabili: usando vettorizzazione
 
 # Implementation of sigmoid function:
 def sigmoid(z):
