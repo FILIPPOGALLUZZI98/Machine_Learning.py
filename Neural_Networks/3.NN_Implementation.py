@@ -5,16 +5,20 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 g = sigmoid  ## Va importata o scritta di nuovo
+x = np.array([200, 17])
+W = np.array([[1,-3,5],
+              [-2,4,-6)]])
+b = np.array([-1,1,2])
 
-# Funzione per attivazione di un layer
-def my_dense(a_in, W, b):
+# For activation of a single layer
+def dense(a_in, W,b):
     units = W.shape[1]
-    a_out = np.zeros(units)
-    for j in range(units):               
-        w = W[:,j]                                    
-        z = np.dot(w, a_in) + b[j]         
-        a_out[j] = g(z)               
-    return(a_out)
+    a_out = np.zeros(units):
+    for j in range(units):
+        w = W[:,j]
+        z = np.dot(w, a_in) + b[j]
+        a_out[j] = g(z)
+    return a_out
 
 # Funzione per rete neurale
 def my_sequential(x, W1, b1, W2, b2):
@@ -40,11 +44,22 @@ yhat = (predictions >= 0.5).astype(int)
 print(f"decisions = \n{yhat}")
 
 
+#############################################################################################
+#############################################################################################
+####  VECTORIZATION
+# Usando la vettorizzazione (ricordando che i vettori sono diversi in pytorch e numpy
+# Gli algoritmi sono più efficenti e veloci
 
+X = np.array([[200,17]])
+W = np.array([[1,-3,5],
+              [-2,4,-6)]])
+b = np.array([[-1,1,2]])
 
-
-
-
+# Per attivazione di un singolo layer
+def dense(A_in, W,B):
+    Z = np.matmul(A_in, W) + B  ## Matrix multiplication
+    A_out = g(Z)
+    return A_out
 
 
 
