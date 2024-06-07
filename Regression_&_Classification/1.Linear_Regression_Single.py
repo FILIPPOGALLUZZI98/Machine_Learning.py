@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math, copy
 
+# Algoritmo per trovare i valori dei pesi e dei bias per la regressione lineare che meglio
+# si adattano ai dati
 # Il modello sarà del tipo f_wb = w*x + b
 
 # Consideriamo i seguenti dati
