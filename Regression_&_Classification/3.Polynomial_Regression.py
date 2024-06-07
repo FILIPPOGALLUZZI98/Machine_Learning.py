@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 # Importare le funzioni descritte in precedenza per singole variabili di:
 # cost_function, gradient, gradient_descent 
 
+# Codice per singola variable, ma può essere adattato anche a più variabili guardando il
+# file '2.Linear_Regression_Multiple.py'
+
 # Supponiamo di voler usare come modello f = 1+x^2
 x = np.arange(1, 16)
 y = 1 + x**2
