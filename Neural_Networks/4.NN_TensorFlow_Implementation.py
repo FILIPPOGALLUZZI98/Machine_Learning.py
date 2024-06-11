@@ -16,7 +16,7 @@ model = Sequential([
 # Specifichiamo quale loss function vogliamo usare
 model.compile(loss=Binarycrossentropy())
 
-# Fit the model
+# Fit the model (minimizzare la loss function)
 model.fit(X,Y,epochs=100)  ## How many steps for gradient descent
 
 
