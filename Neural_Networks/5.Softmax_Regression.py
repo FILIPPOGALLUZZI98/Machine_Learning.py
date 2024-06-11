@@ -6,6 +6,11 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.losses import SparseCategoricalCrossentropy
 
 
+# Il seguente è il codice per fare degli esempi casuali di dati cluster attorno a 4 centri
+centers = [[-5, 2], [-2, -2], [1, 2], [5, -2]]
+X_train, y_train = make_blobs(n_samples=2000, centers=centers, cluster_std=1.0,random_state=30)
+
+
 #############################################################################################
 #############################################################################################
 ####  MODEL IMPLEMENTATION (la versione consigliata invece è quella dopo)
@@ -47,11 +52,17 @@ model.fit(X,Y, epochs=100)
 
 # Per fare la previsione
 logit = model(X)
-f_x = ft.nn.sigmoid(logit)  ## Restituisce le z_j
+f_x = ft.nn.sigmoid(logit)
 
 
+#############################################################################################
+#############################################################################################
+####  SOFTMAX FUNCTION IMPLEMENTATION
 
-
+def my_softmax(z):
+    ez = np.exp(z) 
+    sm = ez/np.sum(ez)
+    return(sm)
 
 
 
