@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 # Importare la sigmoid function
 
-# Codice per implementare una rete neurale senza pytorch ma direttamente da numpy
+# Codice per implementare una rete neurale senza TensorFlow ma direttamente con numpy
 
 x = np.array([200, 17])
 W = np.array([[1,-3,5],
