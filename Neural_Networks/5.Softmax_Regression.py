@@ -7,6 +7,8 @@ from tensorflow.keras.losses import SparseCategoricalCrossentropy
 
 
 # Il seguente è il codice per fare degli esempi casuali di dati cluster attorno a 4 centri
+import sklearn
+from sklearn.datasets import make_blobs
 centers = [[-5, 2], [-2, -2], [1, 2], [5, -2]]
 X_train, y_train = make_blobs(n_samples=2000, centers=centers, cluster_std=1.0,random_state=30)
 
