@@ -7,10 +7,15 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.losses import MeanSquaredError, BinaryCrossentropy
 from tensorflow.keras.activations import sigmoid
 
+# Codice per implementare modello di singolo neurone e confronto tra attivazione 
+# lineare e logistica
 
 #############################################################################################
 #############################################################################################
 ####  NEURON WITHOUT ACTIVATION 
+
+# In questo caso si tratta semplicemente di un modello di regressione (funzione di attivazione 
+# è una retta)
 
 # Usiamo i dati seguenti
 X_train = np.array([[1.0], [2.0]], dtype=np.float32)   
@@ -18,7 +23,7 @@ Y_train = np.array([[300.0], [500.0]], dtype=np.float32)
 fig, ax = plt.subplots(1,1); ax.scatter(X_train, Y_train); plt.show()
 
 # Definiamo un layer con un solo neurone e lo compariamo con la regressione lineare
-linear_layer = tf.keras.layers.Dense(units=1, activation = 'linear', )
+linear_layer = tf.keras.layers.Dense(units=1, activation = 'linear', )  ## Come funzione di attivazione usiamo una retta
 # Inserendo il vettore X_train allora i pesi vengono inizializzati (con valori w piccoli e b=0)
 a1 = linear_layer(X_train[0].reshape(1,1))  ## Funzione di attivazione
 print(a1)
@@ -39,6 +44,8 @@ plt_linear(X_train, Y_train, prediction_tf, prediction_np)  ## In questo caso è
 #############################################################################################
 #############################################################################################
 ####  NEURON WITH SIGMOID ACTIVATION
+
+# In questo caso usiamo come funzione di attivazione la funzione logistica
 
 # Usiamo il seguente dataset
 X_train = np.array([0., 1, 2, 3, 4, 5], dtype=np.float32).reshape(-1,1)
