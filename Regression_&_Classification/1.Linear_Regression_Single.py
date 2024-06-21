@@ -23,7 +23,7 @@ y = data[:, 1]  ## Consumo (l/100Km)
 # Plottiamo il dataset
 plt.scatter(x, y, color='red', marker='x')
 plt.xlabel('Velocità (km/h)'); plt.ylabel('Consumo (litri/100 km)')
-plt.legend(); plt.title('Consumo di carburante vs Velocità');plt.show()
+plt.legend(); plt.title('Consumo di carburante vs Velocità'); plt.show()
 
 
 #############################################################################################
