@@ -146,17 +146,7 @@ w_final, b_final, _ = gradient_descent(X, y, initial_w, initial_b, alpha, iterat
 
 
 # Facciamo i 3 grafici delle possibili variabili per vedere come influiscono
-plt.figure(figsize=(10, 10))
-for i, feature in enumerate(features):
-    plt.subplot(1, 2, i + 1)
-    plt.scatter(df[feature], df['crop_yield'], s=1, color='k', label='Dati')
-    x_vals = np.linspace(df[feature].min(), df[feature].max(), 100).reshape(-1, 1)
-    X_vals = np.full((x_vals.shape[0], X.shape[1]), df[features].mean(axis=0))
-    X_vals[:, i] = x_vals.flatten()
-    y_vals = model(X_vals, w_final, b_final)
-    plt.plot(x_vals, y_vals, color='r', label='Regressione'); plt.title(titles[i])
-    plt.xlabel(feature); plt.ylabel('crop_yield'); plt.legend()
-plt.tight_layout(); plt.show()
+####  DA FARE  ####
 
 
 
