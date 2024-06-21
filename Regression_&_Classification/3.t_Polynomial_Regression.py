@@ -83,7 +83,7 @@ def cost_function(X, y, w, b, lambda_):
 
 # Algoritmo per calcolare il gradiente regolarizzato
 def gradient(X, y, w, b, lambda_):
-    m, n = X.shape[0]
+    m, n = X.shape
     k = len(w)
     dj_dw = np.zeros((n,))
     dj_db = 0.
