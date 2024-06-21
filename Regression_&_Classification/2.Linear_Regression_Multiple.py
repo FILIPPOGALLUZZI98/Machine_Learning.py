@@ -42,7 +42,7 @@ def model(x, w, b):
   
 # Per fare una previsione, selezioniamo un nuovo vettore esempio
 x_vec = np.array([[120, 5, 20, 40]])
-b_init = 785; w_init = np.array([ 0.4, 18.7, -53.36, -26.42])
+w_init =np.array([3020, 50000, -2080, -1100]); b_init= -1400
 f_wb = model(x_vec, w_init, b_init)
 
 
@@ -110,7 +110,22 @@ plt.tight_layout(); plt.show()
 initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 1000000; alpha = 1.0e-4
 w_final, b_final, _ = gradient_descent(X, y, initial_w, initial_b, alpha, iterations)
 
-# Facciamo i 4 grafici possibili
+# Facciamo i 4 grafici delle possibili variabili per vedere come influiscono sul prezzo
+plt.figure(figsize=(10, 10))
+for i, feature in enumerate(features):
+    plt.subplot(2, 2, i + 1)
+    plt.scatter(df[feature], df['Prezzo (€)'], s=1, color='k', label='Dati')
+    x_vals = np.linspace(df[feature].min(), df[feature].max(), 100).reshape(-1, 1)
+    X_vals = np.full((x_vals.shape[0], X.shape[1]), df[features].mean(axis=0))
+    X_vals[:, i] = x_vals.flatten()
+    y_vals = model(X_vals, w_final, b_final)
+    plt.plot(x_vals, y_vals, color='r', label='Regressione'); plt.title(titles[i])
+    plt.xlabel(feature); plt.ylabel('Prezzo (€)'); plt.legend()
+plt.tight_layout(); plt.show()
+
+# Per fare una previsione del prezzo 
+x_vec = np.array([[120, 5, 20, 40]])
+f_wb = model(x_vec, w_final, b_final); f_wb
 
 
 
@@ -119,11 +134,6 @@ w_final, b_final, _ = gradient_descent(X, y, initial_w, initial_b, alpha, iterat
 
 
 
-
-f_wb = model_single(x, w_final, b_final)
-plt.plot(x, f_wb, c='b',label='Our Prediction')
-plt.scatter(x, y, marker='x', c='r',label='Actual Values')
-plt.show()
 
 
 
