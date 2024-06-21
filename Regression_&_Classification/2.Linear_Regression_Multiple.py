@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # Supponiamo di dover prevedere prevedere il prezzo di una casa (variabile dipendente) 
 # Questo può essere influenzato da fattori come la dimensione, il numero di stanze, l'età della casa, la vicinanza dal centro
 # Si tratta di una regressione lineare con variabili multiple
-# Il modello sarà del tipo f_wb = w_1*x_1 + w_2*x_2 + ... + b
+# Il modello sarà del tipo f_wb = w1*x1 + w2*x2 + ... + b
 
 
 #############################################################################################
