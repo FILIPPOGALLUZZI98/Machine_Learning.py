@@ -47,8 +47,7 @@ df['sunlight_hours_sq'] = df['sunlight_hours'] ** 2
 
 # Creiamo il vettore X con le colonne desiderate
 X = df[['fertilizer_used', 'fertilizer_used_sq', 'water_irrigated', 'water_irrigated_sq',
-        'sunlight_hours', 'sunlight_hours_sq']]
-X = X.values  ## Convertirlo a un Numpy array
+        'sunlight_hours', 'sunlight_hours_sq']].values
 y = df['crop_yield'].values  ## Variabile dipendente
 
 
@@ -84,7 +83,8 @@ def cost_function(X, y, w, b, lambda_):
 
 # Algoritmo per calcolare il gradiente regolarizzato
 def gradient(X, y, w, b, lambda_):
-    m, n = X.shape
+    m, n = X.shape[0]
+    k = len(w)
     dj_dw = np.zeros((n,))
     dj_db = 0.
     for i in range(m):
@@ -94,7 +94,7 @@ def gradient(X, y, w, b, lambda_):
         dj_db = dj_db + err
     dj_dw = dj_dw / m
     dj_db = dj_db / m
-    for j in range(n):
+    for j in range(k):
         dj_dw[j] = dj_dw[j] + (lambda_/m) * w[j]
     return dj_db, dj_dw
 
@@ -120,7 +120,7 @@ def gradient_descent(X, y, w_in, b_in, alpha, num_iters, lambda_):
 ####  APPLICARE GRADIENT DESCENT 
 
 # Facciamo i grafici per 4 valori di alpha (con lambda=0) e con 4 valori di lambda con il migliore alpha
-initial_w = np.zeros(X.shape[0]); initial_b = 0.; iterations = 10000
+initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 10000
 
 alpha_values = [1e-7, 1e-6, 1e-5, 1e-4]
 plt.figure(figsize=(14, 10))
