@@ -131,9 +131,10 @@ for i, alpha in enumerate(alpha_values):
 plt.tight_layout(); plt.show()
 
 lambda_values = [0.05, 0.1, 0.5, 1]
+alpha_scelto = 1e-15
 plt.figure(figsize=(14, 10))
 for i, lambda_ in enumerate(lambda_values):
-    _,_,J_history = gradient_descent(X, y, initial_w, initial_b, alpha=1e-5, num_iters=iterations, lambda_=lambda_)
+    _,_,J_history = gradient_descent(X, y, initial_w, initial_b, alpha=alpha_scelto, num_iters=iterations, lambda_=lambda_)
     plt.subplot(2, 2, i + 1); plt.plot(J_history); plt.title(f'Lambda = {lambda_}'); plt.xlabel('Iterations'); plt.ylabel('Cost J')
 plt.tight_layout(); plt.show()
 
