@@ -122,7 +122,7 @@ def gradient_descent(X, y, w_in, b_in, alpha, num_iters, lambda_):
 # Facciamo i grafici per 4 valori di alpha (con lambda=0) e con 4 valori di lambda con il migliore alpha
 initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 10000
 
-alpha_values = [1e-7, 1e-6, 1e-5, 1e-4]
+alpha_values = [1e-15, 1e-16, 1e-17, 1e-18]
 plt.figure(figsize=(14, 10))
 for i, alpha in enumerate(alpha_values):
     _,_,J_history = gradient_descent(X, y, initial_w, initial_b, alpha=alpha, num_iters=iterations, lambda_=0)
