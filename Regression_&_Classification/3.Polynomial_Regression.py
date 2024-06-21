@@ -140,26 +140,23 @@ plt.tight_layout(); plt.show()
 
 
 # Facciamo ora il gradient descent con i migliori valori di alpha e lambda
-initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 1000000; alpha = 1.0e-5; lambda_ = 0
+lambda_scelto = 0.5
+initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 1000000; alpha = alpha_scelto; lambda_ = lambda_scelto
 w_final, b_final, _ = gradient_descent(X, y, initial_w, initial_b, alpha, iterations, lambda_)
 
 
-# Facciamo i 2 grafici delle possibili variabili per vedere come influiscono sulla resa
+# Facciamo i 3 grafici delle possibili variabili per vedere come influiscono
 plt.figure(figsize=(10, 10))
 for i, feature in enumerate(features):
     plt.subplot(1, 2, i + 1)
-    plt.scatter(df[feature], df['Prezzo (€)'], s=1, color='k', label='Dati')
+    plt.scatter(df[feature], df['crop_yield'], s=1, color='k', label='Dati')
     x_vals = np.linspace(df[feature].min(), df[feature].max(), 100).reshape(-1, 1)
     X_vals = np.full((x_vals.shape[0], X.shape[1]), df[features].mean(axis=0))
     X_vals[:, i] = x_vals.flatten()
     y_vals = model(X_vals, w_final, b_final)
     plt.plot(x_vals, y_vals, color='r', label='Regressione'); plt.title(titles[i])
-    plt.xlabel(feature); plt.ylabel('Prezzo (€)'); plt.legend()
+    plt.xlabel(feature); plt.ylabel('crop_yield'); plt.legend()
 plt.tight_layout(); plt.show()
-
-# Per fare una previsione della resa 
-x_vec = np.array([[120, 5, 20, 40]])
-f_wb = model(x_vec, w_final, b_final); f_wb
 
 
 
