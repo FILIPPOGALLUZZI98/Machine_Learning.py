@@ -17,8 +17,6 @@ import matplotlib.pyplot as plt
 datadir = datadir + 'Regression_&_Classification/'
 file_path = datadir +'Linear_Regression_Multiple_House.csv'
 df = pd.read_csv(file_path)
-X = df[['Dimensione (m^2)', 'Numero di stanze', 'Età della casa (anni)', 'Distanza dal centro (km)']].values
-y = df['Prezzo (€)'].values
 
 # Plottiamo i 4 grafici
 features = ['Dimensione (m^2)', 'Numero di stanze', 'Età della casa (anni)', 'Distanza dal centro (km)']
@@ -34,6 +32,10 @@ plt.tight_layout(); plt.show()
 #############################################################################################
 #############################################################################################
 ####  MODELLO
+
+# Creiamo due vettori con le variabili di interesse
+X = df[['Dimensione (m^2)', 'Numero di stanze', 'Età della casa (anni)', 'Distanza dal centro (km)']].values
+y = df['Prezzo (€)'].values
 
 # La funzione che ci fornisce la previsione (cioè il modello)
 def model(x, w, b): 
