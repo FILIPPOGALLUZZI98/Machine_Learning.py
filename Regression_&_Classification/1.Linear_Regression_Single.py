@@ -15,7 +15,7 @@ import math, copy
 
 # Apriamo il dataset (supponiamo di aver già montato gdrive su colab)
 datadir = datadir + 'Regression_&_Classification/'
-data=np.loadtxt(datadir+'Linear_Regression_Single_Carburante.csv', delimiter=',', skiprows=1)
+data = np.loadtxt(datadir+'Linear_Regression_Single_Carburante.csv', delimiter=',', skiprows=1)
 x = data[:, 0]  ## Velocità (Km/h)
 y = data[:, 1]  ## Consumo (l/100Km)
 
