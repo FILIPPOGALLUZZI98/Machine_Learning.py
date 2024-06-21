@@ -30,6 +30,7 @@ for i, feature in enumerate(features):
     plt.title(titles[i]); plt.xlabel(feature); plt.ylabel('Prezzo (€)')
 plt.tight_layout(); plt.show()
 
+
 #############################################################################################
 #############################################################################################
 ####  MODELLO
