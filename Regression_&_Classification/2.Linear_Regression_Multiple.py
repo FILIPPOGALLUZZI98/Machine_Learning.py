@@ -7,7 +7,8 @@ import matplotlib.pyplot as plt
 # Questo può essere influenzato da fattori come la dimensione, il numero di stanze, l'età della casa, la vicinanza dal centro
 # Si tratta di una regressione lineare con variabili multiple
 # Il modello sarà del tipo f_wb = w_1*x_1 + w_2*x_2 + ... + b
-# In questo caso ho suato la regolarizzazione con il parametro lambda
+# In questo caso ho suato la regolarizzazione con il parametro lambda anche se in teoria non serve (da usare poi per
+# la regressione polinomiale)
 
 
 #############################################################################################
@@ -40,7 +41,7 @@ def model(x, w, b):
     p = np.dot(x, w) + b     
     return p  
   
-# Per fare una previsione, selezioniamo un nuovo vettore
+# Per fare una previsione, selezioniamo un nuovo vettore esempio
 x_vec = np.array([[120, 5, 20, 40]])
 b_init = 785; w_init = np.array([ 0.4, 18.7, -53.36, -26.42])
 f_wb = model(x_vec, w_init, b_init)
@@ -103,39 +104,43 @@ def gradient_descent(X, y, w_in, b_in, alpha, num_iters, lambda_):
 #############################################################################################
 ####  APPLICARE GRADIENT DESCENT 
 
-# Facciamo i grafici per 4 valori di alpha (con lambda=0) e con 4 valori di lambda
-# con il migliore alpha
+# Facciamo i grafici per 4 valori di alpha (con lambda=0) e con 4 valori di lambda con il migliore alpha
+initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 10000
 
 alpha_values = [1e-7, 1e-6, 1e-5, 1e-4]
-initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 1000
 plt.figure(figsize=(14, 10))
 for i, alpha in enumerate(alpha_values):
-    w,b,J_history = gradient_descent(X, y, initial_w, initial_b, alpha=alpha, num_iters=iterations, lambda_=0)
+    _,_,J_history = gradient_descent(X, y, initial_w, initial_b, alpha=alpha, num_iters=iterations, lambda_=0)
     plt.subplot(2, 2, i + 1)
-    plt.plot(J_history)
-    plt.title(f'Alpha = {alpha}')
-    plt.xlabel('Iterations')
-    plt.ylabel('Cost J')
-plt.tight_layout()
-plt.show()
+    plt.plot(J_history); plt.title(f'Alpha = {alpha}'); plt.xlabel('Iterations'); plt.ylabel('Cost J')
+plt.tight_layout(); plt.show()
 
 lambda_values = [0.05, 0.1, 0.5, 1]
 plt.figure(figsize=(14, 10))
 for i, lambda_ in enumerate(lambda_values):
-    w,b,J_history = gradient_descent(X, y, initial_w, initial_b, alpha=1e-5, num_iters=iterations, lambda_=lambda_)
-    plt.subplot(2, 2, i + 1)
-    plt.plot(J_history)
-    plt.title(f'Lambda = {lambda_}')
-    plt.xlabel('Iterations')
-    plt.ylabel('Cost J')
-plt.tight_layout()
-plt.show()
+    _,_,J_history = gradient_descent(X, y, initial_w, initial_b, alpha=1e-5, num_iters=iterations, lambda_=lambda_)
+    plt.subplot(2, 2, i + 1); plt.plot(J_history); plt.title(f'Lambda = {lambda_}'); plt.xlabel('Iterations'); plt.ylabel('Cost J')
+plt.tight_layout(); plt.show()
 
 
-# Facciamo allora il gradient descent
-initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 100000; alpha = 1.0e-5; lambda_ = 0
+# Facciamo ora il gradient descent con i migliori valori di alpha e lambda
+initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 1000000; alpha = 1.0e-5; lambda_ = 0
 w_final, b_final, _ = gradient_descent(X, y, initial_w, initial_b, alpha, iterations, lambda_)
 
+# Facciamo i 4 grafici possibili
+
+
+
+
+
+
+
+
+
+f_wb = model_single(x, w_final, b_final)
+plt.plot(x, f_wb, c='b',label='Our Prediction')
+plt.scatter(x, y, marker='x', c='r',label='Actual Values')
+plt.show()
 
 
 
