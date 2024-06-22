@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
+from sklearn.metrics import mean_squared_error
 
 # In questo esempio vogliamo predire il valore di una variabile y che può assumere
 # valori continui positivi e negativi che dipende da tre variabili X1, X2, X3
