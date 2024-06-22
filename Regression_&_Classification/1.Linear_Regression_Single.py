@@ -4,6 +4,8 @@
 # Il modello sarà del tipo f_wb = w*x + b
 # Per una singola variabile non c'è il la regularization perché l'overfitting non è un problema
 
+# In fondo c'è l'implementazione usando 'scikit-learn'
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math, copy
@@ -120,7 +122,30 @@ plt.scatter(x, y, marker='x', c='r',label='Actual Values')
 plt.show()
 
 
+#############################################################################################
+#############################################################################################
+####  USANDO SCIKIT-LEARN
 
+# I passaggi sono gli stessi fino a 'MODELLO'
+from sklearn.linear_model import LinearRegression
+
+# Definire il modello e addestramento
+model = LinearRegression()
+X = x.reshape(-1, 1)  ## Per rendere il formato del modello giusto
+model.fit(X, y)
+
+# Ottenimento dei coefficienti del modello
+w = model.coef_[0]; b = model.intercept_
+print(f"w: {w}, b: {b}")
+
+# Per fare le previsioni
+y_pred = model.predict(X)
+
+# Visualizzazione dei risultati
+plt.plot(X, y_pred, color='blue', label='Prediction')
+plt.scatter(X, y, color='red', marker='x', label='Actual Values')
+plt.xlabel('Velocità (km/h)'); plt.ylabel('Consumo (litri/100 km)')
+plt.title('Consumo di carburante vs Velocità'); plt.legend(); plt.show()
 
 
 
