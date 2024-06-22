@@ -43,11 +43,6 @@ y = df['crop_yield'].values
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)  ## 60-40
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
 
-X = df[['fertilizer_used', 'water_irrigated', 'sunlight_hours']].values
-y = df['crop_yield'].values
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)  ## 60-40
-X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
-
 # Selezionare i parametri
 degrees = range(1, 11); lambdas = np.linspace(0.1, 10, 10)
 mse_train_matrix = np.zeros((len(lambdas), len(degrees)))
