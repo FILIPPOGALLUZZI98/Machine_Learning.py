@@ -43,47 +43,53 @@ y = df['crop_yield'].values
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)  ## 60-40
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
 
-# Selezionare i parametri
-degrees = range(1, 5); lambdas = np.linspace(0.1, 10, 10)
-mse_train_matrix = np.zeros((len(lambdas), len(degrees)))
-mse_cv_matrix = np.zeros((len(lambdas), len(degrees)))
+# Selezione dei parametri
+degrees = range(1, 5)
+lambdas = np.linspace(0.1, 10, 10)
 
-# Testiamo diversi gradi del polinomio e valori di lambda
-for i, Lambda in enumerate(lambdas):
-    mse_train_list = []
-    mse_cv_list = []
-    for degree in degrees:
+# Inizializzazione delle matrici per memorizzare gli errori
+mse_train_matrix = np.zeros((len(degrees), len(lambdas)))
+mse_cv_matrix = np.zeros((len(degrees), len(lambdas)))
+
+# Ottimizzazione del grado del polinomio
+best_degree = None; best_lambda = None; best_cv_score = float('inf')
+for degree in degrees:
+    for i, Lambda in enumerate(lambdas):
         model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha=Lambda))
         model.fit(X_train, y_train)
         y_train_pred = model.predict(X_train)
         mse_train = mean_squared_error(y_train, y_train_pred)
-        mse_train_list.append(mse_train)
-        cv_scores = cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', cv=5)
+        mse_train_matrix[degree - 1, i] = mse_train
+        cv_scores = cross_val_score(model, X_val, y_val, scoring='neg_mean_squared_error', cv=5)
         mse_cv = -np.mean(cv_scores)
-        mse_cv_list.append(mse_cv)
-    mse_train_matrix[i, :] = mse_train_list
-    mse_cv_matrix[i, :] = mse_cv_list
+        mse_cv_matrix[degree - 1, i] = mse_cv
+        if mse_cv < best_cv_score:
+            best_cv_score = mse_cv
+            best_degree = degree
+            best_lambda = Lambda
+
+# Visualizzazione dei risultati
 plt.figure(figsize=(18, 12))
 for i, Lambda in enumerate(lambdas):
     plt.subplot(2, 5, i + 1)
-    plt.plot(degrees, mse_train_matrix[i, :], marker='o', linestyle='-', color='b', label='Train MSE')
-    plt.plot(degrees, mse_cv_matrix[i, :], marker='o', linestyle='-', color='g', label='CV MSE')
+    plt.plot(degrees, mse_train_matrix[:, i], marker='o', linestyle='-', color='b', label='Train MSE')
+    plt.plot(degrees, mse_cv_matrix[:, i], marker='o', linestyle='-', color='g', label='CV MSE')
     plt.title(f'MSE per Grado del Polinomio (Lambda = {Lambda:.1f})'); plt.xlabel('Grado del Polinomio')
     plt.ylabel('Mean Squared Error (MSE)'); plt.xticks(degrees); plt.legend(); plt.grid(True)
 plt.tight_layout(); plt.show()
 
+# Stampa dei migliori parametri trovati
+print(f"Miglior grado del polinomio: {best_degree}")
+print(f"Miglior Lambda: {best_lambda}")
 
-#############################################################################################
-#############################################################################################
-####  MODEL IMPLEMENTATION
+# Creazione del modello finale con i migliori parametri
+final_model = make_pipeline(PolynomialFeatures(best_degree), Ridge(alpha=best_lambda))
+final_model.fit(X_train, y_train)
 
-# Creiamo il modello polinomiale con i migliori valori trovati
-degree = 3  ## Grado del polinomio
-Lambda = 0.5  ## Parametro di regolarizzazione
-
-# Applichiamo il modello
-model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha=Lambda))
-model.fit(X_train, y_train)
+# Valutazione del modello finale sul set di test
+y_test_pred = final_model.predict(X_test)
+test_mse = mean_squared_error(y_test, y_test_pred)
+print(f"Errore Quadratico Medio sul set di test: {test_mse}")
 
 # Creiamo i grafici delle linee di regressione
 plt.figure(figsize=(14, 10))
@@ -98,6 +104,9 @@ for i, feature in enumerate(features):
     plt.title(titles[i]); plt.xlabel(feature); plt.ylabel('Crop Yield'); plt.legend()
 plt.tight_layout(); plt.show()
 
+
+
+
 # Per ottenere la formula del modello
 polynomial_features = model.named_steps['polynomialfeatures']
 ridge = model.named_steps['ridge']
@@ -106,17 +115,6 @@ coefficients = ridge.coef_; intercept = ridge.intercept_
 terms = [f"{coeff:.4f}*{name}" for coeff, name in zip(coefficients, feature_names)]
 formula = " + ".join(terms); formula = f"{intercept:.4f} + " + formula
 print("La forma matematica del modello è:"); print(formula)
-
-# Fare le previsioni
-y_pred_train = model.predict(X_train)
-y_pred_test = model.predict(X_test)
-mse_train = mean_squared_error(y_train, y_pred_train)
-mse_test = mean_squared_error(y_test, y_pred_test)
-r2 = r2_score(y_test, y_pred_test)
-print(f"Mean Squared Error (MSE) su training set: {mse_train}")
-print(f"Mean Squared Error (MSE) su test set: {mse_test}")
-print(f"Coefficiente di determinazione R^2: {r2}")
-
 
 
 
