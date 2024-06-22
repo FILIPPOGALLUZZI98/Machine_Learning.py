@@ -181,6 +181,18 @@ for i, feature in enumerate(features):
     plt.title(titles[i]); plt.xlabel(feature); plt.ylabel('Crop Yield'); plt.legend()
 plt.tight_layout(); plt.show()
 
+# Per ottenere la formula del modello
+polynomial_features = model.named_steps['polynomialfeatures']
+ridge = model.named_steps['ridge']
+feature_names = polynomial_features.get_feature_names_out(features)
+
+# Otteniamo i coefficienti e l'intercetta
+coefficients = ridge.coef_; intercept = ridge.intercept_
+
+# Mostriamo la forma matematica del modello
+terms = [f"{coeff:.4f}*{name}" for coeff, name in zip(coefficients, feature_names)]
+formula = " + ".join(terms); formula = f"{intercept:.4f} + " + formula
+print("La forma matematica del modello è:"); print(formula)
 
 
 
