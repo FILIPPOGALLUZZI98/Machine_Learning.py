@@ -107,7 +107,15 @@ terms = [f"{coeff:.4f}*{name}" for coeff, name in zip(coefficients, feature_name
 formula = " + ".join(terms); formula = f"{intercept:.4f} + " + formula
 print("La forma matematica del modello è:"); print(formula)
 
-
+# Fare le previsioni
+y_pred_train = model.predict(X_train)
+y_pred_test = model.predict(X_test)
+mse_train = mean_squared_error(y_train, y_pred_train)
+mse_test = mean_squared_error(y_test, y_pred_test)
+r2 = r2_score(y_test, y_pred_test)
+print(f"Mean Squared Error (MSE) su training set: {mse_train}")
+print(f"Mean Squared Error (MSE) su test set: {mse_test}")
+print(f"Coefficiente di determinazione R^2: {r2}")
 
 
 
