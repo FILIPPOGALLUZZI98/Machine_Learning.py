@@ -43,33 +43,39 @@ y = df['crop_yield'].values
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)  ## 60-40
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
 
-Lambda = 0.5  ## Parametro di regolarizzazione
-degrees = range(1, 11)  ## Gradi del polinomio da testare
-mse_train_list = []; mse_cv_list = []; mse_test_list = [] 
+X = df[['fertilizer_used', 'water_irrigated', 'sunlight_hours']].values
+y = df['crop_yield'].values
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)  ## 60-40
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
 
-# Testiamo diversi gradi del polinomio
-for degree in degrees:
-    model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha=Lambda))
-    model.fit(X_train, y_train)
-    y_train_pred = model.predict(X_train)
-    mse_train = mean_squared_error(y_train, y_train_pred)
-    mse_train_list.append(mse_train)
-    cv_scores = cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', cv=5)
-    mse_cv = -np.mean(cv_scores)
-    mse_cv_list.append(mse_cv)
-    y_test_pred = model.predict(X_test)
-    mse_test = mean_squared_error(y_test, y_test_pred)
-    mse_test_list.append(mse_test)
-    print(f'Degree {degree}: Train MSE = {mse_train}, CV MSE = {mse_cv}, Test MSE = {mse_test}')
+# Selezionare i parametri
+degrees = range(1, 11); lambdas = np.linspace(0.1, 10, 10)
+mse_train_matrix = np.zeros((len(lambdas), len(degrees)))
+mse_cv_matrix = np.zeros((len(lambdas), len(degrees)))
 
-# Visualizziamo gli MSE per ogni grado del polinomio
-plt.figure(figsize=(10, 10))
-plt.plot(degrees, mse_train_list, marker='o', linestyle='-', color='b', label='Train MSE')
-plt.plot(degrees, mse_cv_list, marker='o', linestyle='-', color='g', label='CV MSE')
-plt.plot(degrees, mse_test_list, marker='o', linestyle='-', color='r', label='Test MSE')
-plt.title('MSE per Grado del Polinomio'); plt.xlabel('Grado del Polinomio')
-plt.ylabel('Mean Squared Error (MSE)'); plt.xticks(degrees); plt.legend()
-plt.grid(True); plt.show()
+# Testiamo diversi gradi del polinomio e valori di lambda
+for i, Lambda in enumerate(lambdas):
+    mse_train_list = []
+    mse_cv_list = []
+    for degree in degrees:
+        model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha=Lambda))
+        model.fit(X_train, y_train)
+        y_train_pred = model.predict(X_train)
+        mse_train = mean_squared_error(y_train, y_train_pred)
+        mse_train_list.append(mse_train)
+        cv_scores = cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', cv=5)
+        mse_cv = -np.mean(cv_scores)
+        mse_cv_list.append(mse_cv)
+    mse_train_matrix[i, :] = mse_train_list
+    mse_cv_matrix[i, :] = mse_cv_list
+plt.figure(figsize=(18, 12))
+for i, Lambda in enumerate(lambdas):
+    plt.subplot(2, 5, i + 1)
+    plt.plot(degrees, mse_train_matrix[i, :], marker='o', linestyle='-', color='b', label='Train MSE')
+    plt.plot(degrees, mse_cv_matrix[i, :], marker='o', linestyle='-', color='g', label='CV MSE')
+    plt.title(f'MSE per Grado del Polinomio (Lambda = {Lambda:.1f})'); plt.xlabel('Grado del Polinomio')
+    plt.ylabel('Mean Squared Error (MSE)'); plt.xticks(degrees); plt.legend(); plt.grid(True)
+plt.tight_layout(); plt.show()
 
 
 #############################################################################################
