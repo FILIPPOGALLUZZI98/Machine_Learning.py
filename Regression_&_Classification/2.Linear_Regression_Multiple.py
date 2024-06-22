@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
 
 # Supponiamo di dover prevedere il prezzo di una casa (variabile dipendente) 
 # Questo può essere influenzato da fattori come la dimensione, il numero di stanze, l'età della casa, la vicinanza dal centro
@@ -70,8 +71,18 @@ for i, feature in enumerate(features):
     plt.xlabel(feature); plt.ylabel('Prezzo (€)'); plt.legend()
 plt.tight_layout(); plt.show()
 
+# Calcolo dell'MSE sul test set
+mse = mean_squared_error(y_test, y_pred_test)
+r2 = r2_score(y_test, y_pred_test)
+print(f"Mean Squared Error (MSE): {mse}")
+print(f"Coefficiente di determinazione R^2: {r2}")
 
-
+# Plot dei residui
+residui = y_test - y_pred_test
+plt.figure(figsize=(8, 6))
+plt.scatter(y_pred_test, residui, color='blue')
+plt.xlabel('Previsioni'); plt.ylabel('Residui'); plt.axhline(y=0, color='r', linestyle='--')
+plt.title('Plot dei Residui'); plt.grid(True); plt.show()
 
 
 
