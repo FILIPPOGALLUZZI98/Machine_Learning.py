@@ -1,10 +1,10 @@
-# Come esempio prendiamo il riconoscimento di cifre (0 o 1) come visto negli appunti
-# layer1 = 25n; layer2 = 15n; layer3 = output = 1n
-
 import tensorflow as tf
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.losses import BinaryCrossentropy
+
+# Come esempio prendiamo il riconoscimento di cifre (0 o 1) come visto negli appunti
+# layer1 = 25n; layer2 = 15n; layer3 = output = 1n
 
 
 # Costruiamo il modello di rete neurale
