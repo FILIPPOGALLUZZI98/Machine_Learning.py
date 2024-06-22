@@ -139,13 +139,20 @@ f_wb = model(x_vec, w_final, b_final); f_wb
 ####  SCIKIT-LEARN IMPLEMENTATION
 
 # I passaggi sono gli stessi fino a 'MODELLO'
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 
-X = df[['Dimensione (m^2)', 'Numero di stanze', 'Età della casa (anni)', 'Distanza dal centro (km)']].values
-y = df['Prezzo (€)'].values
+# Selezionare le variabili del dataset
+features = ['Dimensione (m^2)', 'Numero di stanze', 'Età della casa (anni)', 'Distanza dal centro (km)']
+titles = ['Dimensione (m^2)', 'Numero di stanze', 'Età della casa (anni)', 'Distanza dal centro (km)']
+X = df[features].values; y = df['Prezzo (€)'].values
+
+# Dividere i dati in train set e test set
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Creazione e addestramento del modello
 model = LinearRegression()
-model.fit(X, y)
+model.fit(X_train, y_train)
 
 # Ottenere i parametri del modello
 w = model.coef_; b = model.intercept_
@@ -156,8 +163,11 @@ x_vec = np.array([[120, 5, 20, 40]])
 f_wb = model.predict(x_vec)
 print(f"Predicted price for {x_vec}: {f_wb}")
 
-# Facciamo i 4 grafici delle possibili variabili per vedere come influiscono sul prezzo
-plt.figure(figsize=(10, 10))
+# Previsioni sul test set
+y_pred_test = model.predict(X_test)
+
+# Visualizzazione delle prestazioni del modello per ciascuna variabile
+plt.figure(figsize=(12, 12))
 for i, feature in enumerate(features):
     plt.subplot(2, 2, i + 1)
     plt.scatter(df[feature], df['Prezzo (€)'], s=1, color='k', label='Dati')
@@ -168,7 +178,6 @@ for i, feature in enumerate(features):
     plt.plot(x_vals, y_vals, color='r', label='Regressione'); plt.title(titles[i])
     plt.xlabel(feature); plt.ylabel('Prezzo (€)'); plt.legend()
 plt.tight_layout(); plt.show()
-
 
 
 
