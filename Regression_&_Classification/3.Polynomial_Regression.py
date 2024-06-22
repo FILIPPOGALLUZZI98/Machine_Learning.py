@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import Ridge
 from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import mean_squared_error
 
 # Il modello sarà del tipo f_wb = w1*x1 + w2*x1^2 + w3*x2^(-1/2) + w4*x3^3 + ... + b
 # In questo caso dobbiamo usare la regolarizzazione per evitare l'overfitting
