@@ -130,10 +130,40 @@ x_vec = np.array([[120, 5, 20, 40]])
 f_wb = model(x_vec, w_final, b_final); f_wb
 
 
+#############################################################################################
+#############################################################################################
+####  USARE SCIKIT-LEARN
 
+# I passaggi sono gli stessi fino a 'MODELLO'
 
+X = df[['Dimensione (m^2)', 'Numero di stanze', 'Età della casa (anni)', 'Distanza dal centro (km)']].values
+y = df['Prezzo (€)'].values
 
+# Creazione e addestramento del modello
+model = LinearRegression()
+model.fit(X, y)
 
+# Ottenere i parametri del modello
+w = model.coef_; b = model.intercept_
+print(f"w: {w}, b: {b}")
+
+# Fare previsioni su un nuovo esempio
+x_vec = np.array([[120, 5, 20, 40]])
+f_wb = model.predict(x_vec)
+print(f"Predicted price for {x_vec}: {f_wb}")
+
+# Facciamo i 4 grafici delle possibili variabili per vedere come influiscono sul prezzo
+plt.figure(figsize=(10, 10))
+for i, feature in enumerate(features):
+    plt.subplot(2, 2, i + 1)
+    plt.scatter(df[feature], df['Prezzo (€)'], s=1, color='k', label='Dati')
+    x_vals = np.linspace(df[feature].min(), df[feature].max(), 100).reshape(-1, 1)
+    X_vals = np.full((x_vals.shape[0], X.shape[1]), df[features].mean(axis=0))
+    X_vals[:, i] = x_vals.flatten()
+    y_vals = model.predict(X_vals)
+    plt.plot(x_vals, y_vals, color='r', label='Regressione'); plt.title(titles[i])
+    plt.xlabel(feature); plt.ylabel('Prezzo (€)'); plt.legend()
+plt.tight_layout(); plt.show()
 
 
 
