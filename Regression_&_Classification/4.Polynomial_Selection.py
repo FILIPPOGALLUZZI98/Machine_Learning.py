@@ -73,8 +73,41 @@ plt.ylabel('Mean Squared Error (MSE)'); plt.xticks(degrees); plt.legend()
 plt.grid(True); plt.show()
 
 
+# A questo punto selezioniamo il grado che restituisce i migliori risultati
+degree = 5; Lambda = 0.5
+
+# Applichiamo il modello
+model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha=Lambda))
+model.fit(X, y)
+
+# Creiamo i grafici dei risultati della regressione polinomiale
+plt.figure(figsize=(14, 10))
+for i, feature in enumerate(features):
+    plt.subplot(2, 2, i + 1)
+    plt.scatter(df[feature], df['crop_yield'], s=1, color='k', label='Dati')
+    x_vals = np.linspace(df[feature].min(), df[feature].max(), 100).reshape(-1, 1)
+    X_vals = np.full((x_vals.shape[0], X.shape[1]), df[features].mean(axis=0))
+    X_vals[:, i] = x_vals.flatten()
+    y_vals = model.predict(X_vals)
+    plt.plot(x_vals, y_vals, color='r', label='Regressione Polinomiale (Grado 5)')
+    plt.title(feature); plt.xlabel(feature); plt.ylabel('Crop Yield'); plt.legend()
+plt.tight_layout(); plt.show()
 
 
+# Per ottenere la formula del modello
+polynomial_features = model.named_steps['polynomialfeatures']
+ridge = model.named_steps['ridge']
+feature_names = polynomial_features.get_feature_names_out(features)
+
+# Otteniamo i coefficienti e l'intercetta
+coefficients = ridge.coef_; intercept = ridge.intercept_
+
+# Mostriamo la forma matematica del modello
+terms = [f"{coeff:.4f}*{name}" for coeff, name in zip(coefficients, feature_names)]
+formula = " + ".join(terms)
+formula = f"{intercept:.4f} + " + formula
+print("La forma matematica del modello è:")
+print(formula)
 
 
 
