@@ -12,30 +12,37 @@ def sigmoid(z):
     return g
 
 # Cost Function for Logistic Regression
-def cost_logistic(X, y, w, b):
-    m = X.shape[0]
-    cost = 0.0
+def cost_logistic(X, y, w, b, lambda_ = 1):
+    m,n  = X.shape
+    cost = 0.
     for i in range(m):
-        z_i = np.dot(X[i],w) + b
-        f_wb_i = sigmoid(z_i)
-        cost +=  -y[i]*np.log(f_wb_i) - (1-y[i])*np.log(1-f_wb_i)
-    cost = cost / m
-    return cost
+        z_i = np.dot(X[i], w) + b                                      
+        f_wb_i = sigmoid(z_i)                                         
+        cost +=  -y[i]*np.log(f_wb_i) - (1-y[i])*np.log(1-f_wb_i)     
+    cost = cost/m                                                     
+    reg_cost = 0
+    for j in range(n):
+        reg_cost += (w[j]**2)                                         
+    reg_cost = (lambda_/(2*m)) * reg_cost                                 
+    total_cost = cost + reg_cost                                       
+    return total_cost    
 
-# Gradient of logistic loss function
-def gradient_logistic(X, y, w, b): 
+# Algorithm for computing the regularized gradient 
+def gradient_logistic(X, y, w, b, lambda_): 
     m,n = X.shape
-    dj_dw = np.zeros((n,))                           #(n,)
-    dj_db = 0.
+    dj_dw = np.zeros((n,))                            
+    dj_db = 0.0                                       
     for i in range(m):
-        f_wb_i = sigmoid(np.dot(X[i],w) + b)          #(n,)(n,)=scalar
-        err_i  = f_wb_i  - y[i]                       #scalar
+        f_wb_i = sigmoid(np.dot(X[i],w) + b)          
+        err_i  = f_wb_i  - y[i]                       
         for j in range(n):
-            dj_dw[j] = dj_dw[j] + err_i * X[i,j]      #scalar
+            dj_dw[j] = dj_dw[j] + err_i * X[i,j]      
         dj_db = dj_db + err_i
-    dj_dw = dj_dw/m                                   #(n,)
-    dj_db = dj_db/m                                   #scalar
-    return dj_db, dj_dw
+    dj_dw = dj_dw/m                                   
+    dj_db = dj_db/m                                   
+    for j in range(n):
+        dj_dw[j] = dj_dw[j] + (lambda_/m) * w[j]
+    return dj_db, dj_dw 
 
 # Gradient Descent
 def gradient_descent(X, y, w_in, b_in, alpha, num_iters): 
