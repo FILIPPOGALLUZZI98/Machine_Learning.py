@@ -166,10 +166,10 @@ y = df['crop_yield'].values
 
 # Creiamo il modello polinomiale con regolarizzazione Ridge
 degree = 3  # Grado del polinomio
-alpha = 0.5  # Parametro di regolarizzazione
+Lambda = 0.5  # Parametro di regolarizzazione
 
 # Applichiamo il modello
-model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha=alpha))
+model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha=Lambda))
 model.fit(X, y)
 
 # Creiamo i grafici delle linee di regressione
