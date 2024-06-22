@@ -104,10 +104,8 @@ coefficients = ridge.coef_; intercept = ridge.intercept_
 
 # Mostriamo la forma matematica del modello
 terms = [f"{coeff:.4f}*{name}" for coeff, name in zip(coefficients, feature_names)]
-formula = " + ".join(terms)
-formula = f"{intercept:.4f} + " + formula
-print("La forma matematica del modello è:")
-print(formula)
+formula = " + ".join(terms); formula = f"{intercept:.4f} + " + formula
+print("La forma matematica del modello è:"); print(formula)
 
 
 
