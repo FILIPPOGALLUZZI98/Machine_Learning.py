@@ -50,12 +50,8 @@ model.fit(X_train, y_train)
 w = model.coef_; b = model.intercept_
 print(f"w: {w}, b: {b}")
 
-# Fare previsioni su un nuovo esempio
-x_vec = np.array([[120, 5, 20, 40]])
-f_wb = model.predict(x_vec)
-print(f"Predicted price for {x_vec}: {f_wb}")
-
-# Previsioni sul test set
+# Previsioni
+y_pred_train = model.predict(X_train)
 y_pred_test = model.predict(X_test)
 
 # Visualizzazione delle prestazioni del modello per ciascuna variabile
@@ -71,11 +67,14 @@ for i, feature in enumerate(features):
     plt.xlabel(feature); plt.ylabel('Prezzo (€)'); plt.legend()
 plt.tight_layout(); plt.show()
 
-# Calcolo dell'MSE sul test set
-mse = mean_squared_error(y_test, y_pred_test)
+
+# Calcolo dell'MSE
+mse_train = mean_squared_error(y_train, y_pred_train)
+mse_test = mean_squared_error(y_test, y_pred_test)
 r2 = r2_score(y_test, y_pred_test)
-print(f"Mean Squared Error (MSE): {mse}")
 print(f"Coefficiente di determinazione R^2: {r2}")
+print(f"Mean Squared Error (MSE) su training set: {mse_train}")
+print(f"Mean Squared Error (MSE) su test set: {mse_test}")
 
 # Plot dei residui
 residui = y_test - y_pred_test
