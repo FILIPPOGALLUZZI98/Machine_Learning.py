@@ -1,3 +1,7 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math, copy
+
 # Supponiamo di dover prevedere prevedere il consumo di carburante (in litri per 100 km)
 # di un'auto in base alla sua velocità media (in km/h).
 # Si tratta di una regressione lineare con singola variabile
@@ -5,10 +9,6 @@
 # Per una singola variabile non c'è il la regularization perché l'overfitting non è un problema
 
 # Alla fine c'è l'implementazione con 'scikit-learn'
-
-import numpy as np
-import matplotlib.pyplot as plt
-import math, copy
 
 
 #############################################################################################
