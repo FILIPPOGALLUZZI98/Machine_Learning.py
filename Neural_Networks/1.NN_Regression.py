@@ -4,10 +4,11 @@ from tensorflow.keras.layers import Dense
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score, KFold
 
 # In questo esempio vogliamo predire il valore di una variabile y che può assumere
 # valori continui positivi e negativi che dipende da tre variabili X1, X2, X3
+# Dato che è un problema di regressione i modelli usati avranno HL = relu e OL = linear
 
 
 #############################################################################################
@@ -36,11 +37,10 @@ plt.tight_layout(); plt.show()
 
 # Creiamo i vettori dei dati
 X = df[['X1', 'X2', 'X3']].values
-y = df['Y'].values 
+y = df['Y'].values
 
-# Splittiamo i dati in 3 insiemi (train, cross-validation e test) 
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.3, random_state=42)  ## 80-20
-X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
+# Splittiamo i dati in 2 insiemi (train e test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)  # 80-20 split
 
 # Funzione per creare modelli
 def create_model(layers, units, activation):
@@ -57,26 +57,43 @@ models_config = [
     {'layers': 2, 'units': [20, 10], 'activation': ['relu', 'relu']},
     {'layers': 2, 'units': [15, 10], 'activation': ['relu', 'relu']},
     {'layers': 3, 'units': [30, 20, 10], 'activation': ['relu', 'relu', 'relu']},
-    {'layers': 3, 'units': [10,5, 10], 'activation': ['relu', 'relu','relu']}]
+    {'layers': 3, 'units': [10, 5, 10], 'activation': ['relu', 'relu', 'relu']}]
 
+# Cross-validation con KFold
+kf = KFold(n_splits=5, shuffle=True, random_state=42)
+
+val_loss_dict = {i: [] for i in range(len(models_config))}
 # Addestramento dei modelli e raccolta delle performance
-history_list = []; val_loss_list = []
-for config in models_config:
-    model = create_model(config['layers'], config['units'], config['activation'])
-    history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, verbose=0)
-    history_list.append(history)
-    val_loss_list.append(history.history['val_loss'][-1])
+for train_index, val_index in kf.split(X_train):
+    X_train_cv, X_val_cv = X_train[train_index], X_train[val_index]
+    y_train_cv, y_val_cv = y_train[train_index], y_train[val_index]
+    for i, config in enumerate(models_config):
+        model = create_model(config['layers'], config['units'], config['activation'])
+        history = model.fit(X_train_cv, y_train_cv, epochs=100, batch_size=32, validation_data=(X_val_cv, y_val_cv), verbose=0)
+        val_loss_dict[i].append(history.history['val_loss'][-1])
+# Calcola la media della validation loss per ogni modello
+avg_val_loss_list = [np.mean(val_loss_dict[i]) for i in range(len(models_config))]
+# Seleziona il miglior modello basato sulla media della validation loss
+best_model_index = np.argmin(avg_val_loss_list)
+best_model_config = models_config[best_model_index]
 
 # Visualizzazione delle performance
 plt.figure(figsize=(10, 6))
-for i, history in enumerate(history_list):
-    plt.plot(history.history['val_loss'], label=f'Model {i+1}')
-plt.xlabel('Epochs'); plt.ylabel('Validation Loss'); plt.legend()
+for i in range(len(models_config)):
+    plt.plot(val_loss_dict[i], label=f'Model {i+1}')
+plt.xlabel('Fold'); plt.ylabel('Validation Loss'); plt.legend()
 plt.title('Confronto della Loss su Validation Set tra i Modelli'); plt.show()
 
 # Stampa della performance finale di ogni modello
-for i, val_loss in enumerate(val_loss_list):
-    print(f'Model {i+1} - Validation Loss: {val_loss}')
+for i, avg_val_loss in enumerate(avg_val_loss_list):
+    print(f'Model {i+1} - Average Validation Loss: {avg_val_loss}')
+
+# Addestramento del modello migliore su tutto il training set e valutazione sul test set
+best_model = create_model(best_model_config['layers'], best_model_config['units'], best_model_config['activation'])
+best_model.fit(X_train, y_train, epochs=100, batch_size=32, verbose=0)
+y_test_pred = best_model.predict(X_test)
+test_mse = mean_squared_error(y_test, y_test_pred)
+print(f"Miglior modello - Test MSE: {test_mse}")
 
 
 #############################################################################################
