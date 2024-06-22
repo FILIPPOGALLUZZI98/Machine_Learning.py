@@ -6,8 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
-# In questo esempio vogliamo predire il valore di una variabile y che dipende
-# da tre variabili X1, X2, X3
+# In questo esempio vogliamo predire il valore di una variabile y che può assumere
+# valori continui positivi e negativi che dipende da tre variabili X1, X2, X3
 
 
 #############################################################################################
@@ -47,8 +47,8 @@ model = Sequential([
 Dense(units = 20, input_shape=(X_train.shape[1],), activation='relu'),
 Dense(units = 10, activation='relu'),
 Dense(units = 1,  activation='linear')])
-# Negli hidden layer si usa relu activation functuion mentre nell'output
-# layer si usa linear activation function; può cambiare a seconda del problema
+# Negli hidden layer si usa relu perché è una regressione, e nell'output
+# layer si usa linear activation function
 
 # Compilazione del modello
 model.compile(optimizer='adam', loss='mse', metrics=['mae'])
@@ -57,7 +57,7 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 # Metrica MAE (Mean Absolute Error) per monitorare le prestazioni
 
 # Addestramento del modello
-model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2)
+model.fit(X_train, y_train, epochs=1000, batch_size=32, validation_split=0.2)
 # epochs = numero di iterazioni
 # batch_size = numero di campioni da utilizzare per aggiornare i pesi del modello durante l'addestramento
 
@@ -70,6 +70,10 @@ predictions = model.predict(X_test)
 for i in range(5):
     print(f'Valore Reale: {y_test[i]}, Valore Predetto: {predictions[i]}')
 
+
+#############################################################################################
+#############################################################################################
+####  MODEL SELECTION
 
 
 
