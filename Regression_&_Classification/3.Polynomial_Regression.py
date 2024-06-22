@@ -44,7 +44,7 @@ X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
 
 # Selezionare i parametri
-degrees = range(1, 11); lambdas = np.linspace(0.1, 10, 10)
+degrees = range(1, 5); lambdas = np.linspace(0.1, 10, 10)
 mse_train_matrix = np.zeros((len(lambdas), len(degrees)))
 mse_cv_matrix = np.zeros((len(lambdas), len(degrees)))
 
