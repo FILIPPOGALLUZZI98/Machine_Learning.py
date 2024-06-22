@@ -132,9 +132,11 @@ x_vec = np.array([[120, 5, 20, 40]])
 f_wb = model(x_vec, w_final, b_final); f_wb
 
 
+
+
 #############################################################################################
 #############################################################################################
-####  USARE SCIKIT-LEARN
+####  SCIKIT-LEARN IMPLEMENTATION
 
 # I passaggi sono gli stessi fino a 'MODELLO'
 
