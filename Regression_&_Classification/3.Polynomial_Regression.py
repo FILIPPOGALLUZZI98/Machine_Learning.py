@@ -146,10 +146,6 @@ initial_w = np.zeros(X.shape[1]); initial_b = 0.; iterations = 1000000; alpha = 
 w_final, b_final, _ = gradient_descent(X, y, initial_w, initial_b, alpha, iterations, lambda_)
 
 
-# Facciamo i 3 grafici delle possibili variabili per vedere come influiscono
-####  DA FARE  ####
-
-
 
 
 #############################################################################################
@@ -165,8 +161,8 @@ X = df[['fertilizer_used', 'water_irrigated', 'sunlight_hours']].values
 y = df['crop_yield'].values
 
 # Creiamo il modello polinomiale con regolarizzazione Ridge
-degree = 3  # Grado del polinomio
-Lambda = 0.5  # Parametro di regolarizzazione
+degree = 3  ## Grado del polinomio
+Lambda = 0.5  ## Parametro di regolarizzazione
 
 # Applichiamo il modello
 model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha=Lambda))
