@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 # Si tratta di una regressione lineare con variabili multiple
 # Il modello sarà del tipo f_wb = w1*x1 + w2*x2 + ... + b
 
+# Alla fine c'è l'implementazione con 'scikit-learn'
+
 
 #############################################################################################
 #############################################################################################
