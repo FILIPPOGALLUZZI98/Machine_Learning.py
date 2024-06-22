@@ -38,7 +38,7 @@ X_train = X_train.reshape(-1, 1); X_test = X_test.reshape(-1, 1)
 
 # Definire e addestrare il modello
 model = LinearRegression()
-model.fit(X, y)
+model.fit(X_train, y_train)
 
 # Ottenimento dei coefficienti del modello
 w = model.coef_[0]; b = model.intercept_
