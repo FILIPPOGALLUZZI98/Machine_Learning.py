@@ -42,7 +42,8 @@ y = df['Y'].values
 # Splittiamo i dati in 2 insiemi (train e test)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)  # 80-20 split
 
-# Funzione per creare modelli
+
+# CREIAMO I MODELLI DA VALUTARE
 def create_model(layers, units, activation):
     model = Sequential()
     model.add(Dense(units=units[0], input_shape=(X_train.shape[1],), activation=activation[0]))
@@ -51,17 +52,16 @@ def create_model(layers, units, activation):
     model.add(Dense(units=1, activation='linear'))
     model.compile(optimizer='adam', loss='mse', metrics=['mae'])
     return model
-
-# Definizione delle architetture dei modelli
 models_config = [
     {'layers': 2, 'units': [20, 10], 'activation': ['relu', 'relu']},
     {'layers': 2, 'units': [15, 10], 'activation': ['relu', 'relu']},
     {'layers': 3, 'units': [30, 20, 10], 'activation': ['relu', 'relu', 'relu']},
     {'layers': 3, 'units': [10, 5, 10], 'activation': ['relu', 'relu', 'relu']}]
 
+
+# ALGORITMO PER SCELTA MODELLO MIGLIORE
 # Cross-validation con KFold
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
-
 val_loss_dict = {i: [] for i in range(len(models_config))}
 # Addestramento dei modelli e raccolta delle performance
 for train_index, val_index in kf.split(X_train):
@@ -77,7 +77,8 @@ avg_val_loss_list = [np.mean(val_loss_dict[i]) for i in range(len(models_config)
 best_model_index = np.argmin(avg_val_loss_list)
 best_model_config = models_config[best_model_index]
 
-# Visualizzazione delle performance
+
+# Visualizzazione delle performance dei modelli
 plt.figure(figsize=(10, 6))
 for i in range(len(models_config)):
     plt.plot(val_loss_dict[i], label=f'Model {i+1}')
@@ -96,6 +97,14 @@ test_mse = mean_squared_error(y_test, y_test_pred)
 print(f"Miglior modello - Test MSE: {test_mse}")
 
 
+
+
+# Per conoscere i pesi delle varie variabili
+layer_weights = best_model.layers[0].get_weights()[0]
+# Visualizzazione dei pesi
+print("Pesos del primo layer:"); print(layer_weights)
+
+
 #############################################################################################
 #############################################################################################
 ####  MODELLO
@@ -105,8 +114,7 @@ X = df[['X1', 'X2', 'X3']].values
 y = df['Y'].values 
 
 # Splittiamo i dati in 3 insiemi (train, cross-validation e test) 
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.2, random_state=42)  ## 80-20
-X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)  ## 70-30
 
 # Creazione del modello
 model = Sequential([
