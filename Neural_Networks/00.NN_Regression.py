@@ -53,7 +53,7 @@ Dense(units = 1,  activation='linear')])
 # Compilazione del modello
 model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 # Ottimizzazione = Adam
-# Funzione di perdita dell'errore quadratico medio (MSE)
+# Funzione di perdita dell'errore quadratico medio (MSE); # Binarycrossentropy() 
 # Metrica MAE (Mean Absolute Error) per monitorare le prestazioni
 
 # Addestramento del modello
