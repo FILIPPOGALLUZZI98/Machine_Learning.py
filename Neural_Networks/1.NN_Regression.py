@@ -70,6 +70,12 @@ predictions = model.predict(X_test)
 for i in range(5):
     print(f'Valore Reale: {y_test[i]}, Valore Predetto: {predictions[i]}')
 
+for layer in model.layers:
+    weights, biases = layer.get_weights()
+    print(f'Layer: {layer.name}')
+    print(f'  Weights: {weights}')
+    print(f'  Biases: {biases}')
+
 
 #############################################################################################
 #############################################################################################
