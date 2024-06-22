@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import math, copy
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
 
 # Supponiamo di dover prevedere prevedere il consumo di carburante (in litri per 100 km)
 # di un'auto in base alla sua velocità media (in km/h).
@@ -57,6 +58,14 @@ plt.plot(X_test, y_pred_test, color='orange', linestyle='--', label='Prediction 
 plt.xlabel('Velocità (km/h)'); plt.ylabel('Consumo (litri/100 km)'); plt.title('Consumo di carburante vs Velocità')
 plt.legend(); plt.show()
 
+
+# Per calcolare la bontà del modello
+mse_train = mean_squared_error(y_train, y_pred_train)
+mse_test = mean_squared_error(y_test, y_pred_test)
+r2 = r2_score(y_test, y_pred_test)
+print(f"Mean Squared Error (MSE) su training set: {mse_train}")
+print(f"Mean Squared Error (MSE) su test set: {mse_test}")
+print(f"Coefficiente di determinazione R^2: {r2}")
 
 
 
