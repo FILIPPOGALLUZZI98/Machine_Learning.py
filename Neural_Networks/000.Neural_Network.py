@@ -6,8 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
-
-# SPIEGAZIONE DELL'ESEMPIO
+# In questo esempio vogliamo predire il valore di una variabile y che dipende
+# da tre variabili X1, X2, X3
 
 
 #############################################################################################
@@ -38,9 +38,9 @@ plt.tight_layout(); plt.show()
 X = df[['X1', 'X2', 'X3']].values
 y = df['Y'].values 
 
-# Splittiamo i dati in 3 insiemi (train, cross-validation e test)
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)
-X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
+# Splittiamo i dati in 3 insiemi (train, cross-validation e test) 
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.2, random_state=42)  ## 80-20
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
 
 # Creazione del modello
 model = Sequential([
@@ -67,15 +67,6 @@ print(f'Loss: {loss}, MAE: {mae}')
 
 # Previsione con il modello
 predictions = model.predict(X_test)
-
-# Plottaggio delle previsioni rispetto ai valori reali
-plt.figure(figsize=(8, 6))
-plt.scatter(y_test, predictions, s=5, color='blue')
-plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color='red')
-plt.title('Confronto tra Valori Reali e Predetti'); plt.xlabel('Valori Reali')
-plt.ylabel('Valori Predetti'); plt.show()
-
-# Stampa alcune previsioni
 for i in range(5):
     print(f'Valore Reale: {y_test[i]}, Valore Predetto: {predictions[i]}')
 
