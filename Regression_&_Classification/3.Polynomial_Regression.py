@@ -35,7 +35,7 @@ plt.tight_layout(); plt.show()
 
 #############################################################################################
 #############################################################################################
-####  MODEL SELECTION
+####  MODEL SELECTION (Using Cross-Validation)
 
 # Data split in 3: train, cross-validation e test 
 X = df[['fertilizer_used', 'water_irrigated', 'sunlight_hours']].values
@@ -117,8 +117,43 @@ formula = " + ".join(terms); formula = f"{intercept:.4f} + " + formula
 print("La forma matematica del modello è:"); print(formula)
 
 
+#############################################################################################
+#############################################################################################
+####  MODEL IMPLEMENTATION
+
+D = 2; Lambda = 0.1
+model = make_pipeline(PolynomialFeatures(D), Ridge(alpha=Lambda))
+model.fit(X_train, y_train)
+
+# Valutazione del modello finale sul set di test
+y_test_pred = model.predict(X_test)
+test_mse = mean_squared_error(y_test, y_test_pred)
+print(f"Errore Quadratico Medio sul set di test: {test_mse}")
+
+# Creiamo i grafici delle linee di regressione
+plt.figure(figsize=(14, 10))
+for i, feature in enumerate(features):
+    plt.subplot(2, 2, i + 1)
+    plt.scatter(df[feature], df['crop_yield'], s=1, color='k', label='Dati')
+    x_vals = np.linspace(df[feature].min(), df[feature].max(), 100).reshape(-1, 1)
+    X_vals = np.full((x_vals.shape[0], X.shape[1]), df[features].mean(axis=0))
+    X_vals[:, i] = x_vals.flatten()
+    y_vals = model.predict(X_vals)
+    plt.plot(x_vals, y_vals, color='r', label='Regressione Polinomiale')
+    plt.title(titles[i]); plt.xlabel(feature); plt.ylabel('Crop Yield'); plt.legend()
+plt.tight_layout(); plt.show()
 
 
+
+
+# Per ottenere la formula del modello
+polynomial_features = model.named_steps['polynomialfeatures']
+ridge = model.named_steps['ridge']
+feature_names = polynomial_features.get_feature_names_out(features)
+coefficients = ridge.coef_; intercept = ridge.intercept_
+terms = [f"{coeff:.4f}*{name}" for coeff, name in zip(coefficients, feature_names)]
+formula = " + ".join(terms); formula = f"{intercept:.4f} + " + formula
+print("La forma matematica del modello è:"); print(formula)
 
 
 
