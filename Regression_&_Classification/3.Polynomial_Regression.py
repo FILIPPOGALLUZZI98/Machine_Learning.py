@@ -99,7 +99,7 @@ for i, feature in enumerate(features):
     x_vals = np.linspace(df[feature].min(), df[feature].max(), 100).reshape(-1, 1)
     X_vals = np.full((x_vals.shape[0], X.shape[1]), df[features].mean(axis=0))
     X_vals[:, i] = x_vals.flatten()
-    y_vals = model.predict(X_vals)
+    y_vals = final_model.predict(X_vals)
     plt.plot(x_vals, y_vals, color='r', label='Regressione Polinomiale')
     plt.title(titles[i]); plt.xlabel(feature); plt.ylabel('Crop Yield'); plt.legend()
 plt.tight_layout(); plt.show()
