@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 # la quantità di fertilizzanti usati, di acqua e ore di sole
 # Usiamo solo queste 3 variabili (anche se nel dataset ce ne sono di più)
 
+# Alla fine c'è l'implementazione con 'scikit-learn'
 
 #############################################################################################
 #############################################################################################
@@ -148,6 +149,41 @@ w_final, b_final, _ = gradient_descent(X, y, initial_w, initial_b, alpha, iterat
 # Facciamo i 3 grafici delle possibili variabili per vedere come influiscono
 ####  DA FARE  ####
 
+
+
+
+#############################################################################################
+#############################################################################################
+####  SCIKIT-LEARN IMPLEMENTATION
+
+# Il codice è uguale fino a 'MODELLO'
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Ridge
+from sklearn.pipeline import make_pipeline
+
+X = df[['fertilizer_used', 'water_irrigated', 'sunlight_hours']].values
+y = df['crop_yield'].values
+
+# Creiamo il modello polinomiale con regolarizzazione Ridge
+degree = 3  # Grado del polinomio
+alpha = 0.5  # Parametro di regolarizzazione
+
+# Applichiamo il modello
+model = make_pipeline(PolynomialFeatures(degree), Ridge(alpha=alpha))
+model.fit(X, y)
+
+# Creiamo i grafici delle linee di regressione
+plt.figure(figsize=(14, 10))
+for i, feature in enumerate(features):
+    plt.subplot(2, 2, i + 1)
+    plt.scatter(df[feature], df['crop_yield'], s=1, color='k', label='Dati')
+    x_vals = np.linspace(df[feature].min(), df[feature].max(), 100).reshape(-1, 1)
+    X_vals = np.full((x_vals.shape[0], X.shape[1]), df[features].mean(axis=0))
+    X_vals[:, i] = x_vals.flatten()
+    y_vals = model.predict(X_vals)
+    plt.plot(x_vals, y_vals, color='r', label='Regressione Polinomiale')
+    plt.title(titles[i]); plt.xlabel(feature); plt.ylabel('Crop Yield'); plt.legend()
+plt.tight_layout(); plt.show()
 
 
 
