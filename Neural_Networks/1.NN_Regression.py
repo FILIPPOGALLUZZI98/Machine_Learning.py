@@ -105,8 +105,7 @@ models_config = [
     {'layers': 2, 'units': [20, 10], 'activation': ['relu', 'relu']},
     {'layers': 2, 'units': [15, 10], 'activation': ['relu', 'relu']},
     {'layers': 3, 'units': [30, 20, 10], 'activation': ['relu', 'relu', 'relu']},
-    {'layers': 3, 'units': [10,5, 10], 'activation': ['relu', 'relu','relu']}
-]
+    {'layers': 3, 'units': [10,5, 10], 'activation': ['relu', 'relu','relu']}]
 
 # Addestramento dei modelli e raccolta delle performance
 history_list = []; val_loss_list = []
