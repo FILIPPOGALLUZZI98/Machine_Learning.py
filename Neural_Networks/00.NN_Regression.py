@@ -80,7 +80,7 @@ X = df[['X1', 'X2', 'X3']].values
 y = df['Y'].values 
 
 # Splittiamo i dati in 3 insiemi (train, cross-validation e test) 
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.2, random_state=42)  ## 80-20
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.3, random_state=42)  ## 80-20
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)  ## 50-50
 
 
@@ -97,9 +97,9 @@ def create_model(layers, units, activation):
 # Definizione delle architetture dei modelli
 models_config = [
     {'layers': 2, 'units': [20, 10], 'activation': ['relu', 'relu']},
-    {'layers': 3, 'units': [50, 30, 10], 'activation': ['relu', 'relu', 'relu']},
-    {'layers': 4, 'units': [60, 40, 20, 10], 'activation': ['relu', 'relu', 'relu', 'relu']},
-    {'layers': 2, 'units': [20, 10], 'activation': ['tanh', 'tanh']}
+    {'layers': 2, 'units': [15, 10], 'activation': ['relu', 'relu']},
+    {'layers': 3, 'units': [30, 20, 10], 'activation': ['relu', 'relu', 'relu']},
+    {'layers': 3, 'units': [10,5, 10], 'activation': ['relu', 'relu','relu']}
 ]
 
 # Addestramento dei modelli e raccolta delle performance
@@ -114,11 +114,8 @@ for config in models_config:
 plt.figure(figsize=(10, 6))
 for i, history in enumerate(history_list):
     plt.plot(history.history['val_loss'], label=f'Model {i+1}')
-plt.xlabel('Epochs')
-plt.ylabel('Validation Loss')
-plt.legend()
-plt.title('Confronto della Loss su Validation Set tra i Modelli')
-plt.show()
+plt.xlabel('Epochs'); plt.ylabel('Validation Loss'); plt.legend()
+plt.title('Confronto della Loss su Validation Set tra i Modelli'); plt.show()
 
 # Stampa della performance finale di ogni modello
 for i, val_loss in enumerate(val_loss_list):
