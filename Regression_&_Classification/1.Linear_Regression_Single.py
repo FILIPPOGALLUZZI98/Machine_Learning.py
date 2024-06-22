@@ -45,7 +45,7 @@ w = model.coef_[0]; b = model.intercept_
 print(f"w: {w}, b: {b}")
 
 # Per fare le previsioni
-y_pred = model.predict(X)
+y_pred_train = model.predict(X_train)
 y_pred_test = model.predict(X_test)
 
 # Visualizzazione dei risultati
