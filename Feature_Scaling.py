@@ -1,19 +1,11 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import copy, math
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
-# Implementation of z-score
-def zscore(X):
-    # find the mean of each column/feature
-    mu = np.mean(X, axis=0)                
-    # find the standard deviation of each column/feature
-    sigma = np.std(X, axis=0)                 
-    # element-wise, subtract mu for that column from each example, divide by std for that column
-    X_norm = (X - mu) / sigma      
-    return (X_norm, mu, sigma)
+# Supponiamo di avere i dati X, y
 
-# Normalizziamo i dati
-X_norm, X_mu, X_sigma = zscore(X_train)
+scaler = StandardScaler().set_output(transform="pandas")
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+scaled_X_train = scaler.fit_transform(X_train)
 
 
 
