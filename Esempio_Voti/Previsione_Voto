@@ -1,0 +1,54 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+
+
+
+# Utilizzeremo un modello di classificazione come la Logistic Regression per predire se un elettore
+# voterà per il Partito A.
+
+# Caricare il dataset
+df = pd.read_csv(datadir+'Esempi_Per_Elettori/'+'voters_data.csv')
+X = df[['age', 'education_level', 'previous_vote', 'social_media_activity']]; y = df['voted_party']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Inizializzare e addestrare il modello
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Fare previsioni sul test set
+y_pred = model.predict(X_test)
+
+# Valutare l'accuratezza del modello
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuratezza: {accuracy}')
+# Mostrare la matrice di confusione
+conf_matrix = confusion_matrix(y_test, y_pred)
+print('Matrice di Confusione:')
+print(conf_matrix)
+# Mostrare il rapporto di classificazione
+class_report = classification_report(y_test, y_pred)
+print('Rapporto di Classificazione:')
+print(class_report)
+
+# Predire la probabilità che un elettore voti per il Partito A
+y_prob = model.predict_proba(X_test)[:, 1]
+
+# Aggiungere le probabilità al dataframe di test
+X_test['voted_party_prob'] = y_prob
+
+# Identificare gli elettori indecisi (probabilità vicina a 0.5)
+indecisive_voters = X_test[(y_prob > 0.4) & (y_prob < 0.6)]
+print('Elettori Indecisi:')
+print(indecisive_voters)
+
+
+
+
+df = pd.read_csv(datadir+'Esempi_Per_Elettori/'+'voters_data.csv')
+
+
+
+
